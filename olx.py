@@ -19,10 +19,12 @@ for state in states:
     qtdAutomobilesPerState = state.find('span', class_= 'sc-1l6qrj6-1 bcgvPM sc-ifAKCX iOyFmS')
 
     if linkState is not None and qtdAutomobilesPerState is not None:
+        pagesPerState = 40
 
         intQtdAutomobilesPerState = int(qtdAutomobilesPerState.text.split(', ')[1].replace('.', ''))
 
-        pagesPerState = int(intQtdAutomobilesPerState / 50 - 1)
+        if intQtdAutomobilesPerState < 4000:
+            pagesPerState = int(intQtdAutomobilesPerState / 50 - 1)
 
         for page in range(1, pagesPerState):
             site = BeautifulSoup(requests.get(linkState['href'] + '?o=' + str(page), headers=headers).text, 'html.parser')
