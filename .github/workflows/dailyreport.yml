@@ -1,4 +1,4 @@
-name: test
+name: Web scraping
 
 on:
   schedule:
@@ -6,8 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  my-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: first-step
-        run: echo "hello world"
+      - uses: action/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Run scraping olx code
+        run: python olx.py
