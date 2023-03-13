@@ -1,0 +1,12 @@
+name: test
+
+on:
+  schedule:
+    - cron: "1 * * * *"
+
+jobs:
+  my-job:
+    runs-on: ubunto-latest
+    steps:
+      - name: first-step
+        run: echo "hello world"
