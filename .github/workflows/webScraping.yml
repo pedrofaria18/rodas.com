@@ -2,16 +2,18 @@ name: Web-scraping
 
 on:
   schedule:
-    - cron: "37 18 * * *"
+    - cron: "40 18 * * *"
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.x
+        run: pip install requests
+        run: pip install beautifulsoup4
       - name: Run scraping olx code
         run: python olx.py
