@@ -40,6 +40,4 @@ for state in states:
 
                 allAutomobiles.append(automobileInfo)
 
-                print(len(allAutomobiles))
-
 print(len(allAutomobiles))
