@@ -18,7 +18,7 @@ class URLBackQueue:
     def get_lock(self) -> Lock:
         return self.lock
 
-    def put(self, url: str, queue_num: int):
+    def put(self, url: str, queue_num: int) -> None:
         with self.lock:
             if queue_num not in self.url_host_queues:
                 self.url_host_queues[queue_num] = Queue()
@@ -38,7 +38,7 @@ class URLBackQueue:
             self.url_count -= 1
             return url
 
-    def size(self):
+    def size(self) -> int:
         return self.url_count
 
 
@@ -72,7 +72,7 @@ class URLFrontToBackRouter:
 
     def run(self):
         while True:
-            if self.front_queue.get_size() > 0:
+            if self.front_queue.size() > 0:
                 url = self.front_queue.get()
                 host_url = urlparse(url).netloc
 
