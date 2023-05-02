@@ -3,5 +3,5 @@ from abc import ABC, abstractmethod
 
 class UrlRankerInterface(ABC):
     @abstractmethod
-    def get_priority(self, thing) -> int:
+    def rank_url(self, thing) -> int:
         raise NotImplementedError

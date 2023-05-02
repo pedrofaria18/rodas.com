@@ -1,4 +1,4 @@
-from src.crawler.downloaders.download_queue import URLDownloadQueue
+from src.crawler.url_frontier.download_queue import URLDownloadQueue
 from src.interfaces.i_db_connection import DBConnectionInterface
 from src.database.db_parser import DatabaseParser as db_parser
 from src.model.models import DownloadResult

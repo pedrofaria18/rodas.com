@@ -1,4 +1,3 @@
-from urllib.parse import urlparse
 from src.crawler.url_frontier.front_queue import URLFrontQueue
 from multiprocessing import Queue, Lock
 
@@ -9,7 +8,7 @@ class URLBackQueue:
     """
 
     def __init__(self):
-        self.url_host_queues = dict()
+        self.url_host_queues: dict[int, Queue] = dict()
         self.url_count = 0
         self.lock = Lock()
 
@@ -37,7 +36,8 @@ class URLBackQueue:
             return url
 
     def size(self) -> int:
-        return self.url_count
+        with self.lock:
+            return self.url_count
 
 
 class HostToQueueTable:
@@ -61,9 +61,9 @@ class HostToQueueTable:
 class URLFrontToBackRouter:
     """
     Esta classe é responsável por rotear URLs da fila do Front para a fila do Back.
+    TODO:
+        - Implementar logging para o roteamento de URLs.
     """
-
-    # TODO: - Implementar logging para o roteamento de URLs.
 
     def __init__(self, front_queue: URLFrontQueue, back_queue: URLBackQueue, host_table: HostToQueueTable):
         self.front_queue = front_queue

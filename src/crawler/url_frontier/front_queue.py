@@ -7,22 +7,23 @@ class URLFrontQueue:
     Esta classe é responsável por gerenciar as filas do Front de URLs de cada host.
     """
 
-    def __init__(self, ranker: UrlRankerInterface):
+    def __init__(self, url_ranker: UrlRankerInterface):
         self.url_priority_queues: dict[int, Queue] = dict()
         self.url_count: int = 0
-        self.ranker = ranker
+        self.url_ranker = url_ranker
         self.lock = Lock()
 
     def get_lock(self) -> Lock:
         return self.lock
 
     def put(self, url: str) -> None:
-        priority = self.ranker.get_priority(url)
-        if priority not in self.url_priority_queues:
-            self.url_priority_queues[priority] = Queue()
+        with self.lock:
+            priority = self.url_ranker.rank_url(url)
+            if priority not in self.url_priority_queues:
+                self.url_priority_queues[priority] = Queue()
 
-        self.url_priority_queues[priority].put(url)
-        self.url_count += 1
+            self.url_priority_queues[priority].put(url)
+            self.url_count += 1
 
     def get(self) -> str or None:
         if self.url_count == 0:
