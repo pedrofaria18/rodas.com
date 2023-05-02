@@ -1,4 +1,5 @@
 from multiprocessing import Lock
+from datetime import datetime
 import heapq
 
 
@@ -17,7 +18,7 @@ class URLDownloadQueue:
     def __contains__(self, url: str):
         return url in self._queue
 
-    def push(self, url: str, priority=0):
+    def push(self, url: str, priority: datetime):
         """Adiciona item na fila com prioridade."""
         heapq.heappush(self._queue, (priority, url))
 
