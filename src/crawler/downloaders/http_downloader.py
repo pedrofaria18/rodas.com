@@ -1,7 +1,7 @@
-from interfaces.i_database_connection import DBConnectionInterface
-from database.database_adapters import adapter as adapter
-from crawler.downloaders.download_queue import URLDownloadQueue
-from model.models import DownloadResult
+from src.crawler.downloaders.download_queue import URLDownloadQueue
+from src.interfaces.i_db_connection import DBConnectionInterface
+from src.database.db_parser import DatabaseParser as db_parser
+from src.model.models import DownloadResult
 
 from datetime import datetime
 import aiohttp
@@ -16,9 +16,9 @@ class HTTPDownloader:
     MAX_THREADS_NUM = 10
     MAX_CONCURRENT_DOWNLOADS = 20
 
-    def __init__(self, db_connection: DBConnectionInterface, priority_queue: URLDownloadQueue):
+    def __init__(self, db_connection: DBConnectionInterface, download_queue: URLDownloadQueue):
         self.db_connection = db_connection
-        self.priority_queue = priority_queue
+        self.download_queue = download_queue
         self.visited_url_hashes = set()
 
     @staticmethod
@@ -43,13 +43,13 @@ class HTTPDownloader:
 
     def __get_next_urls(self) -> list or None:
         """Retorna as próximas URLs a serem baixadas."""
-        if self.priority_queue.is_empty():
+        if self.download_queue.is_empty():
             return None
         urls = []
-        while len(urls) <= self.MAX_CONCURRENT_DOWNLOADS:
-            if self.priority_queue.is_empty():
+        while not self.download_queue.is_empty():
+            if len(urls) <= self.MAX_CONCURRENT_DOWNLOADS:
                 break
-            url = self.priority_queue.pop()
+            url = self.download_queue.pop()
             urls.append(url)
         return urls
 
@@ -65,7 +65,7 @@ class HTTPDownloader:
                 tasks['failed'].append(result)
                 continue
 
-            url_hash = adapter.hash(result['url'])
+            url_hash = db_parser.hash(result['url'])
             if url_hash not in self.visited_url_hashes:
                 tasks['insert'].append(result)
                 self.visited_url_hashes.add(url_hash)
@@ -75,7 +75,7 @@ class HTTPDownloader:
 
         # Checa quais páginas já foram baixadas anteriormente
         # ---------------------------------------------------
-        url_hashes = [adapter.hash(result['url']).hexdigest() for result in results_to_check]
+        url_hashes = [db_parser.hash(result['url']).hexdigest() for result in results_to_check]
         previous_records = self.db_connection.get_html_doc_records(url_hashes)
 
         # Separa as páginas que precisam ser inseridas e as que precisam ser atualizadas
@@ -85,14 +85,18 @@ class HTTPDownloader:
             map(self.visited_url_hashes.add, url_hashes)
             return tasks
 
-        for result in results_to_check:
-            url_hash = adapter.hash(result['url'])
+        previous_records = {db_parser.hash(rec['url']): rec for rec in db_parser.parse_to_html_docs(previous_records)}
+
+        for checked_result in results_to_check:
+            url_hash = db_parser.hash(checked_result['url'])
+
             if url_hash not in previous_records:
-                tasks['insert'].append(result)
+                tasks['insert'].append(checked_result)
+                continue
+            elif previous_records[url_hash]['html_hash'] == checked_result['html_hash']:
                 continue
 
-            if previous_records[url_hash]['html_hash'] != result['html_hash']:
-                tasks['update'].append(result)
+            tasks['update'].append(checked_result)
 
         return tasks
 
@@ -106,12 +110,12 @@ class HTTPDownloader:
             results = await HTTPDownloader.download_urls(urls)
             db_tasks = self.__generate_db_tasks(results)
 
-            if len(db_tasks['insert_tasks']) > 0:
+            if len(db_tasks['insert']) > 0:
                 self.db_connection.insert_html_docs(db_tasks['insert_tasks'])
 
-            if len(db_tasks['update_tasks']) > 0:
+            if len(db_tasks['update']) > 0:
                 self.db_connection.update_html_docs(db_tasks['update_tasks'])
 
-            # TODO: Implementar o salvamento de páginas que falharam
+            # TODO: Implementar o salvamento do log de páginas que falharam
             # if len(db_tasks['failed_tasks']) > 0:
             #     self.db_connection.insert_failed_urls(db_tasks['failed_tasks'])

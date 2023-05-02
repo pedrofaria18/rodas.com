@@ -1,8 +1,8 @@
-from model.models import DownloadResult, HTMLDocument
+from src.model.models import DownloadResult, HTMLDocument
 from hashlib import md5
 
 
-class adapter:
+class DatabaseParser:
     @staticmethod
     def hash(value: str):
         """Gera um hash MD5 para o valor informado."""
@@ -34,9 +34,9 @@ class adapter:
         for result in results:
             result_set = (
                 result['url'],
-                adapter.hash(result['url']).hexdigest(),
+                DatabaseParser.hash(result['url']).hexdigest(),
                 result['html_doc'],
-                adapter.hash(result['html_doc']).hexdigest(),
+                DatabaseParser.hash(result['html_doc']).hexdigest(),
                 result['visited_at'],
                 result['visited_at']
             )
@@ -51,9 +51,9 @@ class adapter:
         for result in results:
             result_set = (
                 result['html_doc'],
-                adapter.hash(result['html_doc']).hexdigest(),
+                DatabaseParser.hash(result['html_doc']).hexdigest(),
                 result['visited_at'],
-                adapter.hash(result['url']).hexdigest(),
+                DatabaseParser.hash(result['url']).hexdigest(),
             )
             values.append(result_set)
 

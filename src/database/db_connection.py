@@ -1,6 +1,6 @@
-from interfaces.i_database_connection import DBConnectionInterface
-from database.database_adapters import PersistenceAdapter as adapter
-from model.models import DownloadResult, HTMLDocument
+from src.interfaces.i_db_connection import DBConnectionInterface
+from src.database.db_parser import DatabaseParser as db_parser
+from src.model.models import DownloadResult, HTMLDocument
 import psycopg2
 
 
@@ -37,7 +37,7 @@ class DBPostgresConnection(DBConnectionInterface):
 
         cursor = self.connection.cursor()
         try:
-            values = adapter.parse_to_insert(results)
+            values = db_parser.parse_to_insert(results)
             cursor.executemany(sql, values)
             self.connection.commit()
         except psycopg2.Error:
@@ -60,7 +60,7 @@ class DBPostgresConnection(DBConnectionInterface):
 
         cursor = self.connection.cursor()
         try:
-            values = adapter.parse_to_update(results)
+            values = db_parser.parse_to_update(results)
             cursor.executemany(sql, values)
             self.connection.commit()
         except psycopg2.Error:
@@ -88,7 +88,7 @@ class DBPostgresConnection(DBConnectionInterface):
 
         return True
 
-    def get_html_doc_records(self, url_hashes: list[str]) -> dict[any, HTMLDocument] or None:
+    def get_html_doc_records(self, url_hashes: list[str]) -> list[HTMLDocument] or None:
         """Obtém o documento HTML no banco de dados."""
         url_hashes = set(url_hashes)
         url_hashes = tuple(url_hashes)
@@ -100,7 +100,7 @@ class DBPostgresConnection(DBConnectionInterface):
             cursor.executemany(sql, url_hashes)
             if cursor.rowcount > 0:
                 results = cursor.fetchmany(cursor.rowcount)
-                records = {adapter.hash(rec): rec for rec in adapter.parse_to_html_docs(results)}
+                records = db_parser.parse_to_html_docs(results)
             else:
                 records = None
         except psycopg2.Error as e:

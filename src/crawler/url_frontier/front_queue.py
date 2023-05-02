@@ -1,4 +1,4 @@
-from interfaces.i_url_ranker import UrlRankerInterface
+from src.interfaces.i_url_ranker import UrlRankerInterface
 from multiprocessing import Queue, Lock
 
 

@@ -1,5 +1,5 @@
 from urllib.parse import urlparse
-from crawler.url_frontier.front_queue import URLFrontQueue
+from src.crawler.url_frontier.front_queue import URLFrontQueue
 from multiprocessing import Queue, Lock
 
 

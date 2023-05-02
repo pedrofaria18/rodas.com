@@ -1,4 +1,4 @@
-from model.models import DownloadResult
+from src.model.models import DownloadResult
 from abc import ABC, abstractmethod
 
 

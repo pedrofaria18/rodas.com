@@ -1,5 +1,5 @@
-from crawler.downloaders.download_queue import URLDownloadQueue
-from crawler.url_frontier.back_queue import URLBackQueue, HostToQueueTable
+from src.crawler.downloaders.download_queue import URLDownloadQueue
+from src.crawler.url_frontier.back_queue import URLBackQueue, HostToQueueTable
 from datetime import datetime, timedelta
 
 
