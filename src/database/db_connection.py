@@ -30,10 +30,7 @@ class DBPostgresConnection(DBConnectionInterface):
 
     def insert_html_docs(self, results: list[DownloadResult]) -> bool:
         """Salva os documentos HTML no banco de dados."""
-        sql = f"""
-        INSERT INTO html_documents (url, url_hash, html, html_hash, updated_at, created_at)
-             VALUES (%s, %s, %s, %s, %s, %s)
-        """
+        sql = 'INSERT INTO html_document (url, url_hash, html, html_hash) VALUES (%s, %s, %s, %s)'
 
         cursor = self.connection.cursor()
         try:
@@ -49,14 +46,12 @@ class DBPostgresConnection(DBConnectionInterface):
 
     def update_html_docs(self, results: list[DownloadResult]) -> bool:
         """Atualiza o documento HTML no banco de dados."""
-        sql = f"""
-        UPDATE html_documents as hd
-           SET html        = %s,
-               html_hash   = %s,
-               updated_at  = %s,
-               visit_count = hd.visit_count + 1
-         WHERE url_hash = %s
-        """
+        sql = '''
+        UPDATE html_document
+           SET html      = %s,
+               html_hash = %s
+         WHERE url_hash  = %s
+        '''
 
         cursor = self.connection.cursor()
         try:
@@ -75,7 +70,7 @@ class DBPostgresConnection(DBConnectionInterface):
         url_hashes = set(url_hashes)
         url_hashes = tuple(url_hashes)
 
-        sql = 'DELETE FROM html_documents WHERE url_hash = %s'
+        sql = 'DELETE FROM html_document WHERE url_hash = %s'
 
         cursor = self.connection.cursor()
         try:
@@ -88,12 +83,12 @@ class DBPostgresConnection(DBConnectionInterface):
 
         return True
 
-    def get_html_doc_records(self, url_hashes: list[str]) -> list[HTMLDocument] or None:
+    def select_html_docs(self, url_hashes: list[str]) -> list[HTMLDocument] or None:
         """Obtém o documento HTML no banco de dados."""
         url_hashes = set(url_hashes)
         url_hashes = tuple(url_hashes)
 
-        sql = 'SELECT * FROM html_documents WHERE url_hash = %s'
+        sql = 'SELECT * FROM html_document WHERE url_hash = %s'
 
         cursor = self.connection.cursor()
         try:

@@ -44,6 +44,6 @@ class DBConnectionInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_html_doc_records(self, url_hashes: list[str]) -> dict[any, DownloadResult] or None:
+    def select_html_docs(self, url_hashes: list[str]) -> dict[any, DownloadResult] or None:
         """Retorna o documento HTML no banco de dados."""
         raise NotImplementedError

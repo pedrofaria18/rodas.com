@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="rodas_project@localhost" uuid="def8d251-8f12-496a-a7a8-4d8c88b11bd2">
+    <data-source source="LOCAL" name="rodas_com@localhost" uuid="f7866dd9-b47d-42e9-9ea4-0615ac8ac78c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/rodas_project</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/$psql_db$</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

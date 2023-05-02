@@ -1,1 +1,3 @@
-/docker/postgres-data/
+/database/
+/docker/pgdata/
+/docs/crawler-diagrama_componentes.psd

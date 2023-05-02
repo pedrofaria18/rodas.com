@@ -36,9 +36,7 @@ class DatabaseParser:
                 result['url'],
                 DatabaseParser.hash(result['url']).hexdigest(),
                 result['html_doc'],
-                DatabaseParser.hash(result['html_doc']).hexdigest(),
-                result['visited_at'],
-                result['visited_at']
+                DatabaseParser.hash(result['html_doc']).hexdigest()
             )
             values.append(result_set)
 
@@ -52,10 +50,8 @@ class DatabaseParser:
             result_set = (
                 result['html_doc'],
                 DatabaseParser.hash(result['html_doc']).hexdigest(),
-                result['visited_at'],
-                DatabaseParser.hash(result['url']).hexdigest(),
+                DatabaseParser.hash(result['url']).hexdigest()
             )
             values.append(result_set)
 
         return values
-

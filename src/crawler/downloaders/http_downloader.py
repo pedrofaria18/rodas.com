@@ -41,7 +41,7 @@ class HTTPDownloader:
         results = [await task for task in asyncio.as_completed(tasks)]
         return results
 
-    def __get_next_urls(self) -> list or None:
+    def _get_next_urls(self) -> list or None:
         """Retorna as próximas URLs a serem baixadas."""
         if self.download_queue.is_empty():
             return None
@@ -53,7 +53,7 @@ class HTTPDownloader:
             urls.append(url)
         return urls
 
-    def __generate_db_tasks(self, download_results: list):
+    def _generate_db_tasks(self, download_results: list):
         """Separa resultados em tarefas de inserção e atualização."""
         tasks = {'insert': [], 'update': [], 'failed': []}
 
@@ -76,24 +76,25 @@ class HTTPDownloader:
         # Checa quais páginas já foram baixadas anteriormente
         # ---------------------------------------------------
         url_hashes = [db_parser.hash(result['url']).hexdigest() for result in results_to_check]
-        previous_records = self.db_connection.get_html_doc_records(url_hashes)
+        db_response = self.db_connection.select_html_docs(url_hashes)
 
         # Separa as páginas que precisam ser inseridas e as que precisam ser atualizadas
         # ------------------------------------------------------------------------------
-        if previous_records is None:
+        if db_response is None:
             map(tasks['insert'].append, results_to_check)
             map(self.visited_url_hashes.add, url_hashes)
             return tasks
 
-        previous_records = {db_parser.hash(rec['url']): rec for rec in db_parser.parse_to_html_docs(previous_records)}
+        parsed_response = db_parser.parse_to_html_docs(db_response)
+        previous_html_docs = {db_parser.hash(r['url']): r for r in parsed_response}
 
         for checked_result in results_to_check:
             url_hash = db_parser.hash(checked_result['url'])
 
-            if url_hash not in previous_records:
+            if url_hash not in previous_html_docs:
                 tasks['insert'].append(checked_result)
                 continue
-            elif previous_records[url_hash]['html_hash'] == checked_result['html_hash']:
+            elif previous_html_docs[url_hash]['html_hash'] == checked_result['html_hash']:
                 continue
 
             tasks['update'].append(checked_result)
@@ -103,12 +104,12 @@ class HTTPDownloader:
     async def run(self):
         """Baixa o conteúdo das URLs e salva no banco de dados."""
         while True:
-            urls = self.__get_next_urls()
+            urls = self._get_next_urls()
             if urls is None:
                 continue
 
             results = await HTTPDownloader.download_urls(urls)
-            db_tasks = self.__generate_db_tasks(results)
+            db_tasks = self._generate_db_tasks(results)
 
             if len(db_tasks['insert']) > 0:
                 self.db_connection.insert_html_docs(db_tasks['insert_tasks'])
