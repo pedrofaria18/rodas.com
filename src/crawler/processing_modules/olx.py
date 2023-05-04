@@ -1,5 +1,5 @@
-from src.interfaces.i_link_extractor import LinkExtractorInterface
-from src.interfaces.i_url_filter import URLFilterInterface
+from crawler.interfaces.i_link_extractor import URLExtractorInterface
+from crawler.interfaces.i_url_filter import URLFilterInterface
 
 
 class OlxURLFilter(URLFilterInterface):
@@ -9,14 +9,23 @@ class OlxURLFilter(URLFilterInterface):
     TODO:
         - Implementar a classe
     """
-    pass
+    def __init__(self):
+        pass
+
+    def filter(self, urls: list[str]) -> list[str]:
+        return urls
 
 
-class OlxLinkExtractor(LinkExtractorInterface):
+class OlxURLExtractor(URLExtractorInterface):
     """
     Extrai as páginas de anúncios de veículos da OLX a partir de um link seed
 
     TODO:
         - Implementar a classe.
     """
-    pass
+    def __init__(self):
+        pass
+
+    def extract(self, html: str) -> list[str]:
+        return []
+

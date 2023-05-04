@@ -1,4 +1,4 @@
-from src.model.models import DownloadResult
+from crawler.model.models import DownloadRecord
 from abc import ABC, abstractmethod
 
 
@@ -24,18 +24,13 @@ class DBConnectionInterface(ABC):
         raise NotImplementedError
 
     @staticmethod
-    def parse_results(results: list[DownloadResult]) -> list[set]:
+    def parse_results(results: list[DownloadRecord]) -> list[set]:
         """Converte os resultados para o formato de salvamento no banco de dados"""
         raise NotImplementedError
 
     @abstractmethod
-    def insert_html_docs(self, results: list[DownloadResult]):
+    def insert_html_docs(self, results: list[DownloadRecord]):
         """Salva o documento HTML no banco de dados."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def update_html_docs(self, results: list[DownloadResult]):
-        """Atualiza o documento HTML no banco de dados."""
         raise NotImplementedError
 
     @abstractmethod
@@ -44,6 +39,11 @@ class DBConnectionInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def select_html_docs(self, url_hashes: list[str]) -> dict[any, DownloadResult] or None:
+    def select_html_docs(self, url_hashes: list[str]) -> dict[any, DownloadRecord] or None:
         """Retorna o documento HTML no banco de dados."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def insert_failed_downloads(self, results: list[DownloadRecord]) -> bool:
+        """Salva os downloads falhos no banco de dados."""
         raise NotImplementedError

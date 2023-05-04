@@ -1,4 +1,4 @@
-from src.interfaces.i_url_ranker import UrlRankerInterface
+from crawler.interfaces.i_url_ranker import UrlRankerInterface
 
 
 class RankerDefault(UrlRankerInterface):

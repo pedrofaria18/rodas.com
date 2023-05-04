@@ -1,20 +1,19 @@
-from src.crawler.url_frontier.download_queue import URLDownloadQueue
-from src.crawler.url_frontier.back_queue import URLBackQueue, HostToQueueTable
+from crawler.url_frontier.download_queue import URLDownloadQueue
+from crawler.url_frontier.back_queue import URLBackQueue, DomainToQueueTable
 from datetime import datetime, timedelta
 
 
 class URLDownloadScheduler:
     """
     Esta classe é responsável por agendar o download de URLs.
+    TODO:
+        - Implementar logging para o scheduler.
+        - Avaliar se vale a pena implementar leitura de `robots.txt` para delays.
     """
-
-    # TODO:
-    #  - Implementar logging para o scheduler.
-    #  - Avaliar se vale a pena implementar leitura de `robots.txt` para delays.
 
     DELAY_IN_SECONDS = 5
 
-    def __init__(self, back_queue: URLBackQueue, download_queue: URLDownloadQueue, host_table: HostToQueueTable):
+    def __init__(self, back_queue: URLBackQueue, download_queue: URLDownloadQueue, host_table: DomainToQueueTable):
         self.host_table = host_table
         self.back_queue = back_queue
         self.download_queue = download_queue
@@ -38,15 +37,15 @@ class URLDownloadScheduler:
 
     def run(self):
         while True:
+            if self.back_queue.size() == 0:
+                continue
+
             host_num, next_visit = self._get_next_host_visit()
             if host_num is None:
-                continue
-
-            if next_visit > datetime.now():
-                continue
-
-            url = self.back_queue.get(host_num)
-            if url is None:
-                continue
+                url = self.back_queue.random_pop()
+                next_visit = datetime.now() + timedelta(seconds=self.DELAY_IN_SECONDS)
+            else:
+                url = self.back_queue.pop(host_num)
 
             self.download_queue.push(url, next_visit)
+            self._set_host_last_visit(host_num, next_visit)

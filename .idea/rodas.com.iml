@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.implem" />
+      <excludeFolder url="file://$MODULE_DIR$/database" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+    </content>
     <orderEntry type="jdk" jdkName="ri-crawler-311" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/src/crawler" />
+        <option value="$MODULE_DIR$/src/crawler/database" />
+        <option value="$MODULE_DIR$/src/crawler/interfaces" />
+        <option value="$MODULE_DIR$/src/crawler/model" />
+      </list>
+    </option>
   </component>
 </module>

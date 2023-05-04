@@ -1,38 +1,68 @@
+
 from src.crawler.url_frontier.front_queue import URLFrontQueue
-from multiprocessing import Queue, Lock
+from multiprocessing import Queue, Lock, get_logger
+from urllib.parse import urlparse
+import random
 
 
 class URLBackQueue:
     """
-    Esta classe é responsável por gerenciar as filas de URLs de cada host.
+    Esta classe é responsável por gerenciar as filas de URLs de cada domínio.
     """
 
+    __LOG_MAX_URL_SIZE = 30
+
     def __init__(self):
-        self.url_host_queues: dict[int, Queue] = dict()
+        self.domain_queues: dict[int, Queue] = dict()
         self.url_count = 0
         self.lock = Lock()
+        self.logger = get_logger()
 
-    def get_lock(self) -> Lock:
-        return self.lock
+    @staticmethod
+    def __trim_url(url: str) -> str:
+        return url[:30] + "..." if len(url) > 30 else url
 
-    def put(self, url: str, queue_num: int) -> None:
+    def push(self, url: str, domain_queue: int) -> None:
         with self.lock:
-            if queue_num not in self.url_host_queues:
-                self.url_host_queues[queue_num] = Queue()
+            if domain_queue not in self.domain_queues:
+                # Adiciona fila para o domínio
+                self.domain_queues[domain_queue] = Queue()
 
-            self.url_host_queues[queue_num].put(url)
+            # Adiciona URL na fila correspondente ao domínio
+            self.domain_queues[domain_queue].put(url)
             self.url_count += 1
+            self.logger.info(f"BackQueue: URL {self.__trim_url(url)} added to queue {domain_queue}")
 
-    def get(self, host_num: int) -> str or None:
+    def pop(self, domain_queue: int) -> str or None:
+        with self.lock:
+            if self.url_count == 0:
+                return None
+            if domain_queue not in self.domain_queues.keys():
+                return None
+
+            # Remove URL da fila correspondente ao domínio requisitado
+            url = self.domain_queues[domain_queue].get()
+            self.url_count -= 1
+
+            self.logger.info(f"BackQueue: URL {self.__trim_url(url)} removed from queue {domain_queue}")
+            return url
+
+    def random_pop(self) -> str or None:
         with self.lock:
             if self.url_count == 0:
                 return None
 
-            if host_num not in self.url_host_queues:
-                return None
+            # Coleta números das filas que não estão vazias
+            nonempty_qnums = [qn for qn in self.domain_queues.keys() if not self.domain_queues[qn].empty()]
 
-            url = self.url_host_queues[host_num].get()
+            # Escolhe uma fila aleatória
+            random_qnum = random.sample(nonempty_qnums, 1)[0]
+
+            # Remove URL da fila escolhida
+            url = self.domain_queues[random_qnum].get()
             self.url_count -= 1
+
+            self.logger.info(f"BackQueue: URL {self.__trim_url(url)} removed from queue {random_qnum}")
             return url
 
     def size(self) -> int:
@@ -40,42 +70,52 @@ class URLBackQueue:
             return self.url_count
 
 
-class HostToQueueTable:
+class DomainToQueueTable:
     """
-    Esta classe é responsável por mapear cada host/domínio para uma fila de URLs.
+    Esta classe é responsável por mapear cada domínio para uma fila de URLs.
     """
 
     def __init__(self):
-        self.host_to_queue_table = dict()
+        self.domain_to_queue_table = dict()
         self.lock = Lock()
+        self.logger = get_logger()
 
-    def get_queue_num(self, host_url) -> int:
+    def log_info(self, domain: str, queue_num: int) -> None:
+        self.logger.info(f"DomainToQueueTable: Domain {domain} mapped to queue {queue_num}")
+
+    def get_queue_num(self, domain) -> int:
         with self.lock:
-            host_key = hash(host_url)
-            if host_key not in self.host_to_queue_table:
-                self.host_to_queue_table[host_key] = len(self.host_to_queue_table)
+            domain_key = hash(domain)
+            if domain_key not in self.domain_to_queue_table:
+                queue_num = len(self.domain_to_queue_table)
+                self.domain_to_queue_table[domain_key] = queue_num
+                self.log_info(domain, queue_num)
 
-            return self.host_to_queue_table[host_key]
+            return self.domain_to_queue_table[domain_key]
 
 
-class URLFrontToBackRouter:
+class FrontToBackQueueRouter:
     """
     Esta classe é responsável por rotear URLs da fila do Front para a fila do Back.
-    TODO:
-        - Implementar logging para o roteamento de URLs.
     """
 
-    def __init__(self, front_queue: URLFrontQueue, back_queue: URLBackQueue, host_table: HostToQueueTable):
-        self.front_queue = front_queue
-        self.back_queue = back_queue
-        self.host_table = host_table
+    def __init__(self, front: URLFrontQueue, back: URLBackQueue, domain_to_queue: DomainToQueueTable):
+        self.front_queue = front
+        self.back_queue = back
+        self.domain_to_queue = domain_to_queue
+        self.logger = get_logger()
 
     def run(self):
         while True:
             if self.front_queue.size() > 0:
-                url = self.front_queue.get()
-                host_url = urlparse(url).netloc
+                # Coleta URL da fila do Front
+                url = self.front_queue.pop()
 
-                queue_num = self.host_table.get_queue_num(host_url)
-                self.back_queue.put(url, queue_num)
+                # Coleta fila do Back correspondente ao domínio da URL
+                domain = urlparse(url).netloc
+                qnum = self.domain_to_queue.get_queue_num(domain)
 
+                self.back_queue.push(url, qnum)
+
+                trimmed_url = url[:50] + "..." if len(url) > 50 else url
+                self.logger.info(f"FrontToBackQueueRouter: URL {trimmed_url} routed to queue {qnum}")
