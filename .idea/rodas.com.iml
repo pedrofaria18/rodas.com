@@ -15,7 +15,6 @@
       <list>
         <option value="$MODULE_DIR$/src/crawler" />
         <option value="$MODULE_DIR$/src/crawler/database" />
-        <option value="$MODULE_DIR$/src/crawler/interfaces" />
         <option value="$MODULE_DIR$/src/crawler/model" />
       </list>
     </option>

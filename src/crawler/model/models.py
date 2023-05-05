@@ -1,43 +1,34 @@
-from typing import TypedDict
+from src.crawler.model.hash import Hash
 from datetime import datetime
-import hashlib
+from typing import TypedDict
+from enum import Enum
 
 
-class Hash:
-    """Esta classe implementa um método para calcular o checksum de uma string."""
-    value: bytes = None
+class URLCategory(Enum):
+    SEED = 0
+    LEAF = 1
+    EXTERNAL = 2
 
-    def __init__(self, content: str = None, hex_hash: str = None):
-        if content is None and hex_hash is None:
-            raise ValueError('É necessário informar o conteúdo ou o hex_hash, não ambos.')
-        if hex_hash is None:
-            self.value = hashlib.md5(content.encode()).digest()
-        else:
-            self.value = bytes.fromhex(hex_hash)
 
-    def __eq__(self, other):
-        if isinstance(other, Hash):
-            return self.value == other.value
-        return False
-
-    def hexdigest(self):
-        return self.value.hex()
-
-    def equals(self, other: str):
-        return self.value == hashlib.md5(other.encode()).digest()
+class URLRecord(TypedDict):
+    url_hash:     Hash
+    category:     URLCategory | None
+    domain_queue: int | None
+    domain_hash:  Hash | None
+    url:          str
 
 
 class DownloadRecord(TypedDict):
     url_hash:   Hash
     html_hash:  Hash | None
+    category:   URLCategory | None
     url:        str
     html:       str | None
     status:     int | None
     visited_on: datetime | None
 
 
-class HTMLDocumentRecord(TypedDict):
-    id:               int
+class DatabaseHtmlDoc(TypedDict):
     url_hash:         Hash
     html_hash:        Hash
     num_of_downloads: int

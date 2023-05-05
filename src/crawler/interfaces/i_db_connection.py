@@ -23,27 +23,22 @@ class DBConnectionInterface(ABC):
         """Fecha a conexão com o banco de dados."""
         raise NotImplementedError
 
-    @staticmethod
-    def parse_results(results: list[DownloadRecord]) -> list[set]:
-        """Converte os resultados para o formato de salvamento no banco de dados"""
+    @abstractmethod
+    def select_html_docs(self, url_hashes: list[str]) -> dict[any, DownloadRecord] | None:
+        """Obtém os registros de documentos HTML salvos no banco de dados."""
         raise NotImplementedError
 
     @abstractmethod
-    def insert_html_docs(self, results: list[DownloadRecord]):
-        """Salva o documento HTML no banco de dados."""
+    def upsert_html_docs(self, results: list[DownloadRecord]) -> bool:
+        """Salva ou atualiza os registros de documentos HTML no banco de dados."""
         raise NotImplementedError
 
     @abstractmethod
-    def delete_html_docs(self, url_hashes: list[str]):
+    def delete_html_docs(self, url_hashes: list[str]) -> bool:
         """Deleta o documento HTML no banco de dados."""
         raise NotImplementedError
 
     @abstractmethod
-    def select_html_docs(self, url_hashes: list[str]) -> dict[any, DownloadRecord] or None:
-        """Retorna o documento HTML no banco de dados."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def insert_failed_downloads(self, results: list[DownloadRecord]) -> bool:
-        """Salva os downloads falhos no banco de dados."""
+    def upsert_failed_downloads(self, results: list[DownloadRecord]) -> bool:
+        """Salva ou atualiza os registros de downloads falhos no banco de dados."""
         raise NotImplementedError

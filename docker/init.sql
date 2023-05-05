@@ -1,21 +1,23 @@
 
-
 /* DOCUMENTOS HTML */
 -- Cria tabela
 CREATE TABLE html_document (
     id                SERIAL     PRIMARY KEY,
     url_hash          CHAR(32)   NOT NULL  UNIQUE,
     html_hash         CHAR(32)   NOT NULL,
+    category          CHAR(10)   NOT NULL,
     url               TEXT       NOT NULL,
     html              TEXT       NOT NULL,
-    active            BOOLEAN    NOT NULL  DEFAULT TRUE,
+    is_active         BOOLEAN    NOT NULL  DEFAULT TRUE,
     num_of_downloads  INTEGER    NOT NULL  DEFAULT 1,
     last_visit_on     TIMESTAMP  NOT NULL,
     first_visit_on    TIMESTAMP  NOT NULL
 );
 
 -- Cria índice para buscas via hash
-CREATE UNIQUE INDEX idx_html_doc_url_hash ON html_document USING btree (url_hash);
+CREATE UNIQUE INDEX idx_html_doc_url_hash  ON html_document USING btree (url_hash);
+CREATE UNIQUE INDEX idx_html_doc_html_hash ON html_document USING btree (html_hash);
+CREATE UNIQUE INDEX idx_html_doc_category  ON html_document USING btree (category);
 
 -- Cria uma função para atualizar campos de timestamp em updates
 CREATE  FUNCTION update_timestamp_html_doc()
@@ -33,8 +35,8 @@ CREATE TRIGGER update_timestamp_html_doc
         EXECUTE PROCEDURE update_timestamp_html_doc();
 
 
-
-/* Cria tabela de falhas de download */
+/* LOG para falhas de download */
+-- Cria tabela
 CREATE TABLE failed_download_log (
     id            SERIAL     PRIMARY KEY,
     url_hash      CHAR(32)   NOT NULL  UNIQUE,
