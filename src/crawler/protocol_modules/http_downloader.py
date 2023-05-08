@@ -4,7 +4,6 @@ from crawler.model.models import URLRecord, DownloadRecord, Hash
 from datetime import datetime
 import random
 import aiohttp
-import threading
 import logging
 
 

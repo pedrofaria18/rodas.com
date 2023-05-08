@@ -1,5 +1,5 @@
-from crawler.proc_modules.domain_extractor import DomainExtractorFactory
-from crawler.proc_modules.queues.extraction_queue import ExtractionQueue
+from crawler.processing_modules.domain_extractor import DomainExtractorFactory
+from crawler.processing_modules.queues.extraction_queue import ExtractionQueue
 from crawler.url_frontier.queues.front_queue import URLFrontQueue
 from crawler.logging.log_treatment import url_trimmer
 from crawler.model.models import URLRecord

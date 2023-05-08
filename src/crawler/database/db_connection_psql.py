@@ -21,7 +21,7 @@ class DBPostgresConnection(DBConnectionInterface):
         self.logger.setLevel(logging.DEBUG)
         self.logger.info(f'Iniciado.')
 
-    def connect(self, password: str) -> bool:
+    def connect(self, password: str) -> None:
         """Conecta ao banco de dados."""
         try:
             self.logger.info(f'Conectando ao banco de dados...')
@@ -35,11 +35,9 @@ class DBPostgresConnection(DBConnectionInterface):
         except psycopg2.Error as e:
             self.logger.debug(f'Erro ao conectar ao banco de dados.')
             self.logger.debug(e)
-            self.connection.close()
-            return False
+            raise e
 
         self.logger.info(f'Banco de dados conectado com sucesso.')
-        return True
 
     def close(self):
         """Fecha a conexão com o banco de dados."""

@@ -1,10 +1,10 @@
 from crawler.url_frontier.queues.download_queue import URLDownloadQueue
-from crawler.proc_modules.queues.extraction_queue import ExtractionQueue
+from crawler.processing_modules.queues.extraction_queue import ExtractionQueue
 from crawler.url_frontier.queues.front_queue import URLFrontQueue
 from crawler.url_frontier.queues.back_queue import URLBackQueue
 
 from crawler.ri_stream.rewind_input_stream import RewindInputStream
-from crawler.proc_modules.link_extractor import LinkExtractor
+from crawler.processing_modules.link_extractor import LinkExtractor
 from crawler.url_frontier.front_to_back_router import FrontToBackQueueRouter
 from crawler.url_frontier.download_scheduler import URLDownloadScheduler
 

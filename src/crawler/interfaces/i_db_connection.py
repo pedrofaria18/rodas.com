@@ -1,7 +1,6 @@
 import logging
 
 from crawler.model.models import DownloadRecord, DBConnectionConfig
-from multiprocessing import Queue
 from abc import ABC, abstractmethod
 
 

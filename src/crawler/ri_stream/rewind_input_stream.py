@@ -1,5 +1,5 @@
 from crawler.database.db_connector_factory import DBConnectionFactory
-from crawler.proc_modules.queues.extraction_queue import ExtractionQueue
+from crawler.processing_modules.queues.extraction_queue import ExtractionQueue
 from crawler.url_frontier.queues.download_queue import URLDownloadQueue
 from crawler.protocol_modules.http_downloader import HTTPDownloader
 from crawler.interfaces.i_db_connection import DBConnectionInterface
@@ -9,7 +9,6 @@ import asyncio
 
 import threading
 import logging
-import time
 
 
 class RewindInputStream:

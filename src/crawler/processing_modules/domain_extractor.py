@@ -1,5 +1,5 @@
-from crawler.proc_modules.domain_modules.webmotors import WebMotorsLinkExtractor, WebMotorsLinkFilter
-from crawler.proc_modules.domain_modules.olx import OlxLinkExtractor, OlxLinkFilter
+from crawler.processing_modules.domain_modules.webmotors import WebMotorsLinkExtractor, WebMotorsLinkFilter
+from crawler.processing_modules.domain_modules.olx import OlxLinkExtractor, OlxLinkFilter
 from crawler.interfaces.i_domain_extractor import DomainExtractorInterface, DomainFilterInterface
 from crawler.model.models import DownloadRecord, URLRecord
 import logging

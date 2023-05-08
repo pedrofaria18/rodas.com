@@ -1,8 +1,6 @@
-
 from crawler.url_frontier.queues.back_queue import URLBackQueue
 from crawler.url_frontier.queues.domain_to_queue_table import DomainToQueueTable
 from crawler.url_frontier.queues.front_queue import URLFrontQueue
-from crawler.logging.log_treatment import url_trimmer
 
 import threading
 import logging
