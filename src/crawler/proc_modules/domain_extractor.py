@@ -1,19 +1,24 @@
-from crawler.processing_modules.domain_modules.webmotors import WebMotorsLinkExtractor, WebMotorsLinkFilter
-from crawler.processing_modules.domain_modules.olx import OlxLinkExtractor, OlxLinkFilter
+from crawler.proc_modules.domain_modules.webmotors import WebMotorsLinkExtractor, WebMotorsLinkFilter
+from crawler.proc_modules.domain_modules.olx import OlxLinkExtractor, OlxLinkFilter
 from crawler.interfaces.i_domain_extractor import DomainExtractorInterface, DomainFilterInterface
 from crawler.model.models import DownloadRecord, URLRecord
-from multiprocessing import get_logger
+import logging
 
 
 class DomainExtractor(DomainExtractorInterface, DomainFilterInterface):
     """
     Esta classe é responsável por extrair os links de uma página HTML e filtrá-los
     segundo o domínio.
+    :param extractor: Instância de um objeto que implementa a interface DomainExtractorInterface.
+    :param _filter: Instância de um objeto que implementa a interface DomainFilterInterface.
     """
-    def __init__(self, extractor: DomainExtractorInterface, filter_: DomainFilterInterface):
+    def __init__(self, extractor: DomainExtractorInterface, _filter: DomainFilterInterface):
         self._extractor = extractor
-        self._filter = filter_
-        self.logger = get_logger()
+        self._filter = _filter
+
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.info('Iniciado.')
 
     def extract(self, download_record: DownloadRecord) -> list[URLRecord]:
         """Extrai os links da página HTML conforme o domínio."""
@@ -48,4 +53,4 @@ class DomainExtractorFactory:
             return None
 
         module = self.__DOMAIN_MODULES__[domain_key]
-        return DomainExtractor(extractor=module['extractor'], filter_=module['filter'])
+        return DomainExtractor(extractor=module['extractor'], _filter=module['filter'])

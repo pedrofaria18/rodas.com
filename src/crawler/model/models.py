@@ -10,11 +10,19 @@ class URLCategory(Enum):
     EXTERNAL = 2
 
 
+class DBConnectionConfig(TypedDict):
+    host:     str
+    port:     int
+    user:     str
+    db_name:  str
+    database: str
+
+
 class URLRecord(TypedDict):
     url_hash:     Hash
     category:     URLCategory | None
     domain_queue: int | None
-    domain_hash:  Hash | None
+    domain_hash:  int | None
     url:          str
 
 

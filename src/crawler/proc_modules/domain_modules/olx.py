@@ -38,7 +38,7 @@ class OlxLinkExtractor(DomainExtractorInterface):
                     'url_hash':     Hash(content=lk.attrib['href']),
                     'category':     category,
                     'domain_queue': None,
-                    'domain_hash':  Hash('olx.com.br'),
+                    'domain_hash':  hash('olx.com.br'),
                     'url':          lk.attrib['href']
                 }
                 url_records.append(url_record)

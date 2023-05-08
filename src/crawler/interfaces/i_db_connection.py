@@ -1,4 +1,7 @@
-from crawler.model.models import DownloadRecord
+import logging
+
+from crawler.model.models import DownloadRecord, DBConnectionConfig
+from multiprocessing import Queue
 from abc import ABC, abstractmethod
 
 
@@ -7,11 +10,8 @@ class DBConnectionInterface(ABC):
     Esta classe é responsável por gerenciar a conexão com o banco de dados.
     """
     @abstractmethod
-    def __init__(self, user: str, host: str, port: int, db_name: str):
-        self.user = user
-        self.host = host
-        self.port = port
-        self.db_name = db_name
+    def __init__(self, db_config: DBConnectionConfig, handler: logging.FileHandler):
+        self.db_config = db_config
 
     @abstractmethod
     def connect(self, password: str):

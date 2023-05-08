@@ -1,21 +1,11 @@
+import asyncio
+
 from crawler.model.models import URLRecord, DownloadRecord, Hash
-from multiprocessing import get_logger
 from datetime import datetime
 import random
 import aiohttp
-import asyncio
-
-HEADERS = [
-    # Samsung Galaxy S22
-    {'User-Agent': 'Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
-                   'like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36'},
-    # Samsung Galaxy S21
-    {'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G996U Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
-                   'like Gecko) Version/4.0 Mobile Safari/537.36'},
-    # Samsung Galaxy S20
-    {'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G980F Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
-                   'like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36'},
-]
+import threading
+import logging
 
 
 class HTTPDownloader:
@@ -23,12 +13,25 @@ class HTTPDownloader:
     Esta classe é responsável por baixar os conteúdos das páginas
     a partir da Fila de Prioridades de URLS.
     """
-    def __init__(self):
-        self.logger = get_logger()
-        self.logger.info('Inicializado.')
-        self.headers = HEADERS
+    HEADERS = [
+        # Samsung Galaxy S22
+        {'User-Agent': 'Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
+                       'like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36'},
+        # Samsung Galaxy S21
+        {'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G996U Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
+                       'like Gecko) Version/4.0 Mobile Safari/537.36'},
+        # Samsung Galaxy S20
+        {'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G980F Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, '
+                       'like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36'},
+    ]
 
-    async def __request(self, url_record: URLRecord) -> DownloadRecord:
+    def __init__(self, handler: logging.FileHandler):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(handler)
+        self.logger.info(f'Iniciado.')
+
+    async def __request(self, url_record: URLRecord, responses: list, index: int) -> None:
         """Baixa o conteúdo da URL informada."""
         result: DownloadRecord = {
             'url_hash':   Hash(content=url_record['url']),
@@ -40,7 +43,7 @@ class HTTPDownloader:
             'visited_on': None
         }
         # Seleciona um User-Agent aleatório.
-        rand_header = random.sample(self.headers, 1)[0]
+        rand_header = random.sample(self.HEADERS, 1)[0]
 
         async with aiohttp.ClientSession(headers=rand_header) as session:
             async with session.get(url_record['url']) as response:
@@ -49,15 +52,20 @@ class HTTPDownloader:
                     result['html_hash'] = Hash(content=result['html'])
                 result['visited_on'] = datetime.now()
                 result['status'] = response.status
-                return result
+                responses[index] = result
 
     async def fetch(self, urls: list[URLRecord]) -> list[DownloadRecord]:
         """Baixa o conteúdo das URLs informada."""
-        self.logger.info(f'Baixando {len(urls)} páginas.')
+        logging.info(f'Baixando {len(urls)} páginas.')
 
-        tasks = [asyncio.create_task(self.__request(url)) for url in urls]
-        responses = [await task for task in asyncio.as_completed(tasks)]
+        tasks: list[asyncio.Task | None] = [None] * len(urls)
+        responses: list[DownloadRecord | None] = [None] * len(urls)
 
-        self.logger.info('Download finalizado.')
+        for i, url in enumerate(urls):
+            tasks[i] = asyncio.create_task(self.__request(url, responses, i))
+
+        await asyncio.wait(tasks)
+
+        logging.info(f'Download finalizado.')
 
         return responses

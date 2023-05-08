@@ -1,0 +1,332 @@
+[2023-05-08 06:30:06,024] | [INFO ] URLDownloadQueue       : Iniciada.
+[2023-05-08 06:30:06,024] | [INFO ] ExtractionQueue        : Iniciada.
+[2023-05-08 06:30:06,024] | [INFO ] URLFrontQueue          : Iniciada.
+[2023-05-08 06:30:06,024] | [INFO ] URLBackQueue           : Iniciada.
+[2023-05-08 06:30:06,025] | [INFO ] RewindInputStream      : Iniciado.
+[2023-05-08 06:30:06,025] | [INFO ] LinkExtractor          : Iniciado.
+[2023-05-08 06:30:06,025] | [INFO ] DomainToQueueTable     : Iniciado.
+[2023-05-08 06:30:06,025] | [INFO ] FrontToBackQueueRouter : Iniciado.
+[2023-05-08 06:30:06,025] | [INFO ] URLDownloadScheduler   : Iniciado.
+[2023-05-08 06:30:06,027] | [INFO ] RewindInputStream      : Iniciando módulo de entrada de dados.
+[2023-05-08 06:30:06,028] | [INFO ] DBPostgresConnection   : Iniciado.
+[2023-05-08 06:30:06,028] | [INFO ] LinkExtractor          : Iniciando processo de extração.
+[2023-05-08 06:30:06,028] | [INFO ] DBPostgresConnection   : Conectando ao banco de dados...
+[2023-05-08 06:30:06,028] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:06,028] | [INFO ] FrontToBackQueueRouter : Iniciando roteamento de URLs.
+[2023-05-08 06:30:06,028] | [INFO ] URLDownloadScheduler   : Iniciando o agendamento de downloads.
+[2023-05-08 06:30:06,029] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:06,029] | [INFO ] URLDownloadScheduler   : Fila de URLs vazia. Aguardando...
+[2023-05-08 06:30:06,155] | [INFO ] DBPostgresConnection   : Banco de dados conectado com sucesso.
+[2023-05-08 06:30:06,158] | [INFO ] HTTPDownloader         : Iniciado.
+[2023-05-08 06:30:06,158] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:06,158] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 0 segundos.
+[2023-05-08 06:30:06,159] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:30:08,715] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:30:08,737] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...carros-vans-e-utilitarios.
+[2023-05-08 06:30:08,737] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:30:08,738] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:30:08,738] | [DEBUG] DomainToQueueTable     : Novo domínio encontrado. Criando fila para o domínio 4963281854764588464.
+[2023-05-08 06:30:08,738] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:08,738] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:08,788] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:30:08,788] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:30:08,788] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:08,788] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:30:18,740] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:30:18.740012, URL: https://es.olx.com.br/...-22-particular-1154951206.
+[2023-05-08 06:30:18,740] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 9 segundos.
+[2023-05-08 06:30:18,740] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:30:21,160] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:30:21,171] | [INFO ] LinkExtractor          : 59 links extraídos da página https://es.olx.com.br/...-22-particular-1154951206.
+[2023-05-08 06:30:21,172] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:30:21,172] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:30:21,172] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:21,225] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:30:21,225] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:30:21,226] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:21,226] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:30:28,741] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:30:28.741574, URL: https://am.olx.com.br/...udo-unico-dono-1182415103.
+[2023-05-08 06:30:28,741] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:28,741] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:30:28,742] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:30:31,374] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:30:31,385] | [INFO ] LinkExtractor          : 59 links extraídos da página https://am.olx.com.br/...udo-unico-dono-1182415103.
+[2023-05-08 06:30:31,385] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:30:31,385] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:30:31,386] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:31,435] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:30:31,435] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:30:31,435] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:31,435] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:30:38,743] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:30:38.743090, URL: https://pi.olx.com.br/...ao-armario-etc-1182415093.
+[2023-05-08 06:30:38,743] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:38,743] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:30:38,744] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:30:41,099] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:30:41,110] | [INFO ] LinkExtractor          : 59 links extraídos da página https://pi.olx.com.br/...ao-armario-etc-1182415093.
+[2023-05-08 06:30:41,111] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:30:41,111] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:30:41,112] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:41,113] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:30:41,114] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:30:41,114] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:41,114] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:30:48,744] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:30:48.744423, URL: https://pb.olx.com.br/...longitude-flex-1169241496.
+[2023-05-08 06:30:48,744] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:48,744] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:30:48,745] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:30:51,099] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:30:51,115] | [INFO ] LinkExtractor          : 59 links extraídos da página https://pb.olx.com.br/...longitude-flex-1169241496.
+[2023-05-08 06:30:51,116] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:30:51,116] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:30:51,116] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:30:51,119] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:30:51,119] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:30:51,119] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:30:51,119] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:30:58,745] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:30:58.745490, URL: https://mg.olx.com.br/...ade-de-momento-1182414986.
+[2023-05-08 06:30:58,745] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:30:58,745] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:30:58,746] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:00,964] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:00,979] | [INFO ] LinkExtractor          : 58 links extraídos da página https://mg.olx.com.br/...ade-de-momento-1182414986.
+[2023-05-08 06:31:00,979] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:00,980] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:00,980] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:00,984] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:00,985] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:00,985] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:00,985] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:08,746] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:08.746289, URL: https://www.olx.com.br...itarios/vw-volkswagen/gol.
+[2023-05-08 06:31:08,746] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:08,746] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:08,747] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:11,512] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:11,537] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...itarios/vw-volkswagen/gol.
+[2023-05-08 06:31:11,537] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:11,538] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:11,538] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:11,589] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:11,589] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:11,590] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:11,590] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:18,747] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:18.747907, URL: https://www.olx.com.br...itarios/gm-chevrolet/onix.
+[2023-05-08 06:31:18,748] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:18,749] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:18,750] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:20,909] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:20,932] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...itarios/gm-chevrolet/onix.
+[2023-05-08 06:31:20,933] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:20,934] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:20,934] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:20,985] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:20,985] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:20,986] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:20,986] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:28,750] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:28.750603, URL: https://www.olx.com.br...tilitarios/toyota/corolla.
+[2023-05-08 06:31:28,750] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:28,750] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:28,751] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:30,759] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:30,773] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...tilitarios/toyota/corolla.
+[2023-05-08 06:31:30,773] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:30,774] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:30,774] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:30,837] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:30,837] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:30,837] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:30,837] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:38,751] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:38.751607, URL: https://www.olx.com.br...e-utilitarios/honda/civic.
+[2023-05-08 06:31:38,751] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:38,751] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:38,752] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:40,721] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:40,740] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...e-utilitarios/honda/civic.
+[2023-05-08 06:31:40,740] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:40,741] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:40,742] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:40,797] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:40,797] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:40,797] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:40,797] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:48,752] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:48.752825, URL: https://www.olx.com.br...-e-utilitarios/fiat/palio.
+[2023-05-08 06:31:48,752] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:48,752] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:48,753] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:31:50,935] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:31:50,952] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...-e-utilitarios/fiat/palio.
+[2023-05-08 06:31:50,953] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:31:50,954] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:31:50,954] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:31:51,013] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:31:51,013] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:31:51,013] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:31:51,013] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:31:58,754] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:31:58.754218, URL: https://www.olx.com.br...-utilitarios/toyota/hilux.
+[2023-05-08 06:31:58,754] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:31:58,754] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:31:58,755] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:00,949] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:00,970] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...-utilitarios/toyota/hilux.
+[2023-05-08 06:32:00,970] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:00,971] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:00,971] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:01,022] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:01,022] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:01,022] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:01,022] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:08,756] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:08.756100, URL: https://www.olx.com.br...e-utilitarios/fiat/strada.
+[2023-05-08 06:32:08,756] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:08,756] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:32:08,756] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:11,080] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:11,094] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...e-utilitarios/fiat/strada.
+[2023-05-08 06:32:11,094] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:11,094] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:11,094] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:11,150] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:11,150] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:11,150] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:11,150] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:18,757] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:18.757100, URL: https://www.olx.com.br...-utilitarios/hyundai/hb20.
+[2023-05-08 06:32:18,757] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:18,757] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:32:18,758] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:21,356] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:21,375] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...-utilitarios/hyundai/hb20.
+[2023-05-08 06:32:21,375] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:21,376] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:21,377] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:21,419] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:21,420] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:21,420] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:21,420] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:28,758] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:28.758018, URL: https://www.olx.com.br...litarios/gm-chevrolet/s10.
+[2023-05-08 06:32:28,758] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:28,758] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:32:28,759] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:31,188] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:31,203] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...litarios/gm-chevrolet/s10.
+[2023-05-08 06:32:31,203] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:31,204] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:31,204] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:31,263] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:31,263] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:31,263] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:31,263] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:38,759] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:38.759384, URL: https://www.olx.com.br...ns-e-utilitarios/fiat/uno.
+[2023-05-08 06:32:38,762] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:38,762] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:32:38,764] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:41,750] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:41,769] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...ns-e-utilitarios/fiat/uno.
+[2023-05-08 06:32:41,770] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:41,770] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:41,770] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:41,819] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:41,819] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:41,819] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:41,819] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:48,764] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:48.764270, URL: https://www.olx.com.br...ilitarios/renault/sandero.
+[2023-05-08 06:32:48,764] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:48,764] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 6 segundos.
+[2023-05-08 06:32:48,765] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:32:50,765] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:32:50,779] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...ilitarios/renault/sandero.
+[2023-05-08 06:32:50,780] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:32:50,780] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:32:50,780] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:32:50,841] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:32:50,841] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:32:50,841] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:32:50,841] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:32:58,765] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:32:58.765622, URL: https://www.olx.com.br...rios/vw-volkswagen/voyage.
+[2023-05-08 06:32:58,765] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:32:58,765] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:32:58,765] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:01,873] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:01,902] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...rios/vw-volkswagen/voyage.
+[2023-05-08 06:33:01,902] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:01,904] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:01,905] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:01,946] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:01,947] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:01,947] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:01,947] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:08,766] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:08.766946, URL: https://www.olx.com.br...ans-e-utilitarios/ford/ka.
+[2023-05-08 06:33:08,766] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:08,766] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 6 segundos.
+[2023-05-08 06:33:08,767] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:11,651] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:11,670] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...ans-e-utilitarios/ford/ka.
+[2023-05-08 06:33:11,670] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:11,671] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:11,671] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:11,723] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:11,724] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:11,724] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:11,724] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:18,767] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:18.767819, URL: https://www.olx.com.br...utilitarios/ford/ecosport.
+[2023-05-08 06:33:18,767] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:18,767] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:33:18,768] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:21,283] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:21,344] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...utilitarios/ford/ecosport.
+[2023-05-08 06:33:21,344] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:21,346] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:21,347] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:21,393] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:21,394] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:21,395] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:21,395] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:28,768] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:28.768797, URL: https://www.olx.com.br...s-e-utilitarios/honda/fit.
+[2023-05-08 06:33:28,768] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:28,768] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:33:28,769] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:31,796] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:31,810] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...s-e-utilitarios/honda/fit.
+[2023-05-08 06:33:31,810] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:31,810] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:31,810] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:31,860] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:31,860] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:31,860] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:31,861] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:38,770] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:38.770483, URL: https://www.olx.com.br...arios/gm-chevrolet/prisma.
+[2023-05-08 06:33:38,770] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:38,770] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 6 segundos.
+[2023-05-08 06:33:38,770] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:41,048] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:41,062] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...arios/gm-chevrolet/prisma.
+[2023-05-08 06:33:41,063] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:41,063] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:41,063] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:41,120] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:41,121] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:41,121] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:41,121] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:48,771] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:48.771323, URL: https://www.olx.com.br...itarios/vw-volkswagen/fox.
+[2023-05-08 06:33:48,771] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:48,771] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:33:48,772] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:33:50,805] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:33:50,818] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...itarios/vw-volkswagen/fox.
+[2023-05-08 06:33:50,818] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:33:50,819] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:33:50,819] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:33:50,870] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:33:50,870] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:33:50,870] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:33:50,870] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...
+[2023-05-08 06:33:58,772] | [DEBUG] URLDownloadScheduler   : Download agendado para 2023-05-08 06:33:58.772656, URL: https://www.olx.com.br...tarios/vw-volkswagen/polo.
+[2023-05-08 06:33:58,772] | [INFO ] FrontToBackQueueRouter : Fila do Front vazia. Aguardando...
+[2023-05-08 06:33:58,772] | [DEBUG] RewindInputStream      : Pacote obtido: 1 URLs. Tempo de espera: 7 segundos.
+[2023-05-08 06:33:58,773] | [INFO ] RewindInputStream      : Baixando 1 URLs.
+[2023-05-08 06:34:01,216] | [INFO ] DBPostgresConnection   : Salvando os documentos HTML no banco de dados...
+[2023-05-08 06:34:01,236] | [INFO ] LinkExtractor          : 55 links extraídos da página https://www.olx.com.br...tarios/vw-volkswagen/polo.
+[2023-05-08 06:34:01,236] | [INFO ] LinkExtractor          : Encaminhando links para a fila do Front.
+[2023-05-08 06:34:01,237] | [INFO ] LinkExtractor          : Encaminhamento concluído.
+[2023-05-08 06:34:01,237] | [DEBUG] LinkExtractor          : Fila de extração vazia. Aguardando...
+[2023-05-08 06:34:01,287] | [INFO ] DBPostgresConnection   : 1 documentos HTML salvos no banco de dados.
+[2023-05-08 06:34:01,287] | [INFO ] RewindInputStream      : 1 documentos baixados, 0 falharam.
+[2023-05-08 06:34:01,287] | [INFO ] RewindInputStream      : Obtendo novas URLs para download.
+[2023-05-08 06:34:01,287] | [DEBUG] RewindInputStream      : Fila de download vazia. Aguardando novas URLs...

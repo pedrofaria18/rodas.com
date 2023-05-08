@@ -15,7 +15,7 @@ class URLPrioritizer(URLPrioritizerInterface):
         :return: Valor numérico que representa a prioridade de download da URL. Quanto menor o valor,
                  maior a prioridade.
         """
-        match URLRecord['category']:
+        match url_record['category']:
             case URLCategory.LEAF:
                 return 1
             case URLCategory.SEED:
@@ -23,4 +23,4 @@ class URLPrioritizer(URLPrioritizerInterface):
             case URLCategory.EXTERNAL:
                 return 3
             case _:
-                raise ValueError(f'URLCategory {URLRecord["category"]} não suportada.')
+                raise ValueError(f'URLCategory {url_record["category"].name} não suportada.')

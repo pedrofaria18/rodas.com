@@ -1,6 +1,7 @@
+
 from crawler.interfaces.i_db_connection import DBConnectionInterface
-from crawler.model.models import DownloadRecord, DatabaseHtmlDoc, Hash
-from multiprocessing import get_logger
+from crawler.model.models import DownloadRecord, DatabaseHtmlDoc, Hash, DBConnectionConfig
+import logging
 import psycopg2
 
 
@@ -8,32 +9,36 @@ class DBPostgresConnection(DBConnectionInterface):
     """
     Esta classe é responsável por gerenciar a conexão e operações
     com o banco de dados PostgresSQL.
+    :param db_config: Dicionário de configuração de conexão com o banco de dados.
     """
 
-    def __init__(self, user: str, host: str, port: int, db_name: str):
-        super().__init__(user, host, port, db_name)
+    def __init__(self, db_config: DBConnectionConfig, handler: logging.FileHandler):
+        super().__init__(db_config, handler)
         self.connection = None
-        self.logger = get_logger()
-        self.logger.info('Inicializado.')
+
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.addHandler(handler)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.info(f'Iniciado.')
 
     def connect(self, password: str) -> bool:
         """Conecta ao banco de dados."""
         try:
-            self.logger.info('Conectando ao banco de dados...')
+            self.logger.info(f'Conectando ao banco de dados...')
             self.connection = psycopg2.connect(
-                user=self.user,
+                user=self.db_config['user'],
                 password=password,
-                host=self.host,
-                port=self.port,
-                database=self.db_name
+                host=self.db_config['host'],
+                port=self.db_config['port'],
+                database=self.db_config['db_name']
             )
         except psycopg2.Error as e:
-            self.logger.error('Erro ao conectar ao banco de dados.')
-            self.logger.critical(e)
+            self.logger.debug(f'Erro ao conectar ao banco de dados.')
+            self.logger.debug(e)
             self.connection.close()
             return False
 
-        self.logger.info('Banco de dados conectado com sucesso.')
+        self.logger.info(f'Banco de dados conectado com sucesso.')
         return True
 
     def close(self):
@@ -41,13 +46,14 @@ class DBPostgresConnection(DBConnectionInterface):
         try:
             self.connection.close()
         except psycopg2.Error as e:
-            self.logger.error('Erro ao fechar a conexão com o banco de dados.')
-            self.logger.critical(e)
-        self.logger.info('Banco de dados desconectado com sucesso.')
+            self.logger.debug(f'Erro ao fechar a conexão com o banco de dados.')
+            self.logger.debug(e)
+        self.logger.info(f'Banco de dados desconectado com sucesso.')
 
     def upsert_html_docs(self, download_records: list[DownloadRecord]) -> bool:
         """Salva os documentos HTML no banco de dados."""
         cursor = self.connection.cursor()
+        self.logger.info(f'Salvando os documentos HTML no banco de dados...')
         try:
             sql = '''
             INSERT INTO html_document (url_hash, html_hash, category, url, html, last_visit_on, first_visit_on)
@@ -60,7 +66,7 @@ class DBPostgresConnection(DBConnectionInterface):
             values = [{
                 'url_hash':   dr['url_hash'].hexdigest(),
                 'html_hash':  dr['html_hash'].hexdigest(),
-                'category':   dr['category'],
+                'category':   dr['category'].name,
                 'url':        dr['url'],
                 'html':       dr['html'],
                 'visited_on': dr['visited_on']
@@ -70,11 +76,13 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.error('Erro ao salvar os documentos HTML no banco de dados.')
-            self.logger.critical(e)
+            self.logger.debug(f'Erro ao salvar os documentos HTML no banco de dados.')
+            self.logger.debug(e)
             return False
         finally:
             cursor.close()
+
+        self.logger.info(f'{len(download_records)} documentos HTML salvos no banco de dados.')
         return True
 
     def delete_html_docs(self, url_hashes: list[str]) -> bool:
@@ -86,11 +94,13 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.error('Erro ao deletar os documentos HTML no banco de dados.')
-            self.logger.critical(e)
+            self.logger.debug(f'Erro ao deletar os documentos HTML no banco de dados.')
+            self.logger.debug(e)
             return False
         finally:
             cursor.close()
+
+        self.logger.info(f'{len(url_hashes)} documentos HTML deletados do banco de dados.')
         return True
 
     def select_html_docs(self, url_hashes: list[str]) -> list[DatabaseHtmlDoc] | None:
@@ -106,26 +116,35 @@ class DBPostgresConnection(DBConnectionInterface):
               FROM html_document
              WHERE url_hash = %s
             '''
-            cursor.executemany(sql, tuple(set(url_hashes)))
-            if cursor.rowcount == 0:
-                return None
-            else:
-                response = cursor.fetchmany(cursor.rowcount)
-                records: list[DatabaseHtmlDoc] = [{
-                    'url_hash':         Hash(hex_hash=r[0]),
-                    'html_hash':        Hash(hex_hash=r[1]),
-                    'num_of_downloads': r[2],
-                    'last_visit_on':    r[3],
-                    'first_visit_on':   r[4]
-                } for r in response]
+            unique_hashes = [(h,) for h in set(url_hashes)]
+            cursor.executemany(sql, unique_hashes)
 
-        except psycopg2.Error as e:
-            self.logger.error('Erro ao obter os documentos HTML do banco de dados.')
-            self.logger.critical(e)
+            records: list[DatabaseHtmlDoc] = []
+            while True:
+                rows = cursor.fetchmany(5000)
+                if not rows:
+                    break
+
+                for row in rows:
+                    record: DatabaseHtmlDoc = {
+                        'url_hash':         Hash(hex_hash=row[0]),
+                        'html_hash':        Hash(hex_hash=row[1]),
+                        'num_of_downloads': row[2],
+                        'last_visit_on':    row[3],
+                        'first_visit_on':   row[4]
+                    }
+                    records.append(record)
+
+        except psycopg2.ProgrammingError:
             return None
+        except psycopg2.Error as e:
+            self.logger.debug(f'Erro ao obter os documentos HTML do banco de dados.')
+            self.logger.debug(f'Tipo do erro: {type(e)}')
+            raise e
         finally:
             cursor.close()
 
+        self.logger.info(f'{len(records)} documentos HTML obtidos do banco de dados.')
         return records
 
     def upsert_failed_downloads(self, download_records: list[DownloadRecord]) -> bool:
@@ -150,10 +169,11 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.error('Erro ao salvar falhas de download no banco de dados.')
-            self.logger.critical(e)
+            self.logger.debug(f'Erro ao salvar falhas de download no banco de dados.')
+            self.logger.debug(e)
             return False
         finally:
             cursor.close()
 
+        self.logger.info(f'{len(download_records)} falhas de download salvas no banco de dados.')
         return True

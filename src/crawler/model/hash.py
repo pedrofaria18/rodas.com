@@ -1,13 +1,17 @@
-from multiprocessing import get_logger
 import hashlib
 
 
 class Hash:
     """
     Esta classe implementa um método para calcular o checksum de uma string.
+    Esse checksum será utilizado como chave primária para identificação de
+    documentos HTML e seus conteúdos.
+    :param content: Conteúdo do documento HTML.
+    :param hex_hash: Valor hash do documento HTML. Principalmente para adaptação dos dados
+                     vindos do banco de dados (str) para modelo de identificação interna (bytes)
+                     do Crawler (coletor).
     """
     value: bytes = None
-    logger = get_logger()
 
     def __init__(self, content: str = None, hex_hash: str = None):
         error = None
@@ -16,7 +20,6 @@ class Hash:
         elif not content and not hex_hash:
             error = 'É necessário informar o conteúdo ou o hash'
         if error is not None:
-            self.logger.error(error)
             raise ValueError(error)
 
         if content:

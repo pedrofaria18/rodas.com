@@ -1,6 +1,4 @@
-from multiprocessing import Lock, get_logger
-
-from crawler.model.models import Hash
+import logging
 
 
 class DomainToQueueTable:
@@ -12,16 +10,20 @@ class DomainToQueueTable:
         - Implementar método load_from_db() para carregar o mapeamento no banco de dados.
     """
 
-    def __init__(self):
-        self.__LOCK__ = Lock()
+    def __init__(self, handler: logging.FileHandler):
         self.domain_to_queue_table = dict()
-        self.logger = get_logger()
-        self.logger.info('Inicializado.')
 
-    def get_queue_num(self, domain_hash: Hash) -> int:
-        with self.__LOCK__:
-            if domain_hash not in self.domain_to_queue_table:
-                queue_num = len(self.domain_to_queue_table)
-                self.domain_to_queue_table[domain_hash] = queue_num
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.addHandler(handler)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.info('Iniciado.')
 
+    def get_queue_num(self, domain_hash: int) -> int:
+        if domain_hash in self.domain_to_queue_table:
             return self.domain_to_queue_table[domain_hash]
+
+        self.logger.debug(f'Novo domínio encontrado. Criando fila para o domínio {domain_hash}.')
+        queue_num = len(self.domain_to_queue_table)
+        self.domain_to_queue_table[domain_hash] = queue_num
+
+        return self.domain_to_queue_table[domain_hash]

@@ -16,8 +16,8 @@ CREATE TABLE html_document (
 
 -- Cria índice para buscas via hash
 CREATE UNIQUE INDEX idx_html_doc_url_hash  ON html_document USING btree (url_hash);
-CREATE UNIQUE INDEX idx_html_doc_html_hash ON html_document USING btree (html_hash);
-CREATE UNIQUE INDEX idx_html_doc_category  ON html_document USING btree (category);
+CREATE INDEX idx_html_doc_html_hash ON html_document USING btree (html_hash);
+CREATE INDEX idx_html_doc_category  ON html_document USING btree (category);
 
 -- Cria uma função para atualizar campos de timestamp em updates
 CREATE  FUNCTION update_timestamp_html_doc()
