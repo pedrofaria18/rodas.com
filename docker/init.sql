@@ -3,9 +3,9 @@
 -- Cria tabela
 CREATE TABLE html_document (
     id                SERIAL     PRIMARY KEY,
+    category          CHAR(10)   NOT NULL,
     url_hash          CHAR(32)   NOT NULL  UNIQUE,
     html_hash         CHAR(32)   NOT NULL,
-    category          CHAR(10)   NOT NULL,
     url               TEXT       NOT NULL,
     html              TEXT       NOT NULL,
     is_active         BOOLEAN    NOT NULL  DEFAULT TRUE,
