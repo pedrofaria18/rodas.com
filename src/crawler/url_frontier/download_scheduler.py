@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 
 import threading
 import logging
-import time
 
 
 class URLDownloadScheduler:
@@ -27,24 +26,15 @@ class URLDownloadScheduler:
         self.logger.addHandler(handler)
         self.logger.info(f'Iniciado.')
 
-    def _set_domain_last_visit(self, domain_queue: int, last_visit: datetime) -> None:
-        """ Define a última visita ao host. """
-        self.domain_last_visit[domain_queue] = last_visit
-
     def _get_domain_next_visit(self) -> (int | None, datetime | None):
         """ Retorna o próximo host a ser visitado. """
-        if not self.domain_last_visit:
+        if len(self.domain_last_visit) == 0:
             return None, None
 
         min_datetime = min(self.domain_last_visit.values())
-        domain_num = next((d for d, lv in self.domain_last_visit.items() if lv == min_datetime), None)
-        if domain_num is None:
-            return None, None
+        domain_num = [k for k, v in self.domain_last_visit.items() if v == min_datetime][0]
 
-        next_visit = min_datetime + timedelta(seconds=self.DELAY_IN_SECONDS)
-        self._set_domain_last_visit(domain_num, next_visit)
-
-        return domain_num, next_visit
+        return domain_num, min_datetime
 
     def run(self,
             back_cond:      threading.Condition,
@@ -68,23 +58,28 @@ class URLDownloadScheduler:
             back_cond.acquire()
             while True:
                 if not back_queue.is_empty():
-                    time.sleep(self.DELAY_IN_SECONDS)
                     if domain_num:
                         url_record = back_queue.pop(domain_num)
-                        next_visit += timedelta(seconds=self.DELAY_IN_SECONDS)
+                        url_record['visit_at'] = next_visit
                     else:
                         url_record = back_queue.random_pop()
-                        next_visit = datetime.now()
+                        url_record['visit_at'] = datetime.now()
                     break
                 self.logger.info(f'Fila de URLs vazia. Aguardando...')
                 back_cond.wait()
             back_cond.release()
 
+            # Adiciona delay entre downloads do mesmo domínio
+            url_record['visit_at'] += timedelta(seconds=self.DELAY_IN_SECONDS)
+
+            # Atualiza o último acesso ao domínio
+            self.domain_last_visit[url_record['domain_num']] = url_record['visit_at']
+
             # Fila de downloads
             download_cond.acquire()
-            self._set_domain_last_visit(url_record['domain_queue'], next_visit)
-            download_queue.push(url_record, next_visit)
+            download_queue.push(url_record)
             download_cond.notify()
             download_cond.release()
 
-            self.logger.debug(f'Download agendado para {next_visit}, URL: {url_trimmer(url_record["url"])}.')
+            self.logger.debug(f'Download agendado para {url_record["visit_at"]}, '
+                              f'URL: {url_trimmer(url_record["url"])}.')

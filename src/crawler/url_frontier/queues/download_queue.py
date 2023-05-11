@@ -23,9 +23,9 @@ class URLDownloadQueue:
     def __contains__(self, url_record: str) -> bool:
         return url_record in self.queue
 
-    def push(self, url_record: URLRecord, priority: datetime) -> None:
+    def push(self, url_record: URLRecord) -> None:
         """Adiciona item na fila com prioridade."""
-        heapq.heappush(self.queue, (priority, len(self.queue), url_record))
+        heapq.heappush(self.queue, (url_record['visit_at'], len(self.queue), url_record))
 
     def pop(self) -> URLRecord:
         """Remove e retorna o item com a menor prioridade."""

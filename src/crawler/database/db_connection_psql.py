@@ -26,15 +26,15 @@ class DBPostgresConnection(DBConnectionInterface):
         try:
             self.logger.info(f'Conectando ao banco de dados...')
             self.connection = psycopg2.connect(
-                user=self.db_config['user'],
                 password=password,
+                user=self.db_config['user'],
                 host=self.db_config['host'],
                 port=self.db_config['port'],
                 database=self.db_config['db_name']
             )
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao conectar ao banco de dados.')
-            self.logger.debug(e)
+            self.logger.error(f'Erro ao conectar ao banco de dados.')
+            self.logger.error(e)
             raise e
 
         self.logger.info(f'Banco de dados conectado com sucesso.')
@@ -44,8 +44,8 @@ class DBPostgresConnection(DBConnectionInterface):
         try:
             self.connection.close()
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao fechar a conexão com o banco de dados.')
-            self.logger.debug(e)
+            self.logger.error(f'Erro ao fechar a conexão com o banco de dados.')
+            self.logger.error(e)
         self.logger.info(f'Banco de dados desconectado com sucesso.')
 
     def upsert_html_docs(self, download_records: list[DownloadRecord]) -> bool:
@@ -74,8 +74,8 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao salvar os documentos HTML no banco de dados.')
-            self.logger.debug(e)
+            self.logger.error(f'Erro ao salvar os documentos HTML no banco de dados.')
+            self.logger.error(e)
             return False
         finally:
             cursor.close()
@@ -92,8 +92,8 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao deletar os documentos HTML no banco de dados.')
-            self.logger.debug(e)
+            self.logger.error(f'Erro ao deletar os documentos HTML no banco de dados.')
+            self.logger.error(e)
             return False
         finally:
             cursor.close()
@@ -136,8 +136,8 @@ class DBPostgresConnection(DBConnectionInterface):
         except psycopg2.ProgrammingError:
             return None
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao obter os documentos HTML do banco de dados.')
-            self.logger.debug(f'Tipo do erro: {type(e)}')
+            self.logger.error(f'Erro ao obter os documentos HTML do banco de dados.')
+            self.logger.error(f'Tipo do erro: {type(e)}')
             raise e
         finally:
             cursor.close()
@@ -167,8 +167,8 @@ class DBPostgresConnection(DBConnectionInterface):
             self.connection.commit()
 
         except psycopg2.Error as e:
-            self.logger.debug(f'Erro ao salvar falhas de download no banco de dados.')
-            self.logger.debug(e)
+            self.logger.error(f'Erro ao salvar falhas de download no banco de dados.')
+            self.logger.error(e)
             return False
         finally:
             cursor.close()

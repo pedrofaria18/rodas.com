@@ -21,9 +21,10 @@ class DBConnectionConfig(TypedDict):
 class URLRecord(TypedDict):
     url_hash:     Hash
     category:     URLCategory | None
-    domain_queue: int | None
+    domain_num:   int | None
     domain_hash:  int | None
     url:          str
+    visit_at:     datetime | None
 
 
 class DownloadRecord(TypedDict):

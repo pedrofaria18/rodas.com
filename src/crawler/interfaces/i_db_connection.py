@@ -11,6 +11,7 @@ class DBConnectionInterface(ABC):
     @abstractmethod
     def __init__(self, db_config: DBConnectionConfig, handler: logging.FileHandler):
         self.db_config = db_config
+        self.handler = handler
 
     @abstractmethod
     def connect(self, password: str):

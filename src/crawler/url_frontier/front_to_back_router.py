@@ -49,7 +49,7 @@ class FrontToBackQueueRouter:
             front_cond.release()
 
             # Coleta fila do Back correspondente ao domínio da URL
-            url_record["domain_queue"] = self.domain_to_queue.get_queue_num(url_record['domain_hash'])
+            url_record["domain_num"] = self.domain_to_queue.get_queue_num(url_record['domain_hash'])
 
             back_cond.acquire()
             back_queue.push(url_record)

@@ -23,7 +23,7 @@ class URLBackQueue:
         self.logger.info('Iniciada.')
 
     def push(self, url_record: URLRecord) -> None:
-        q = url_record['domain_queue']
+        q = url_record['domain_num']
         if q not in self.domain_queues:
             # Adiciona fila para o domínio
             self.domain_queues[q] = deque()
