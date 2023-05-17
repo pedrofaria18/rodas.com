@@ -42,3 +42,9 @@ class DatabaseHtmlDoc(TypedDict):
     num_of_downloads: int
     last_visit_on:    datetime
     first_visit_on:   datetime
+
+
+class DatabaseDocForProcess(TypedDict):
+    url_hash:   Hash
+    html_hash:  Hash
+    html:       str | None

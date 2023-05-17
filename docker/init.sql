@@ -2,16 +2,17 @@
 /* DOCUMENTOS HTML */
 -- Cria tabela
 CREATE TABLE html_document (
-    id                SERIAL     PRIMARY KEY,
-    url_hash          CHAR(32)   NOT NULL  UNIQUE,
-    html_hash         CHAR(32)   NOT NULL,
-    category          CHAR(10)   NOT NULL,
-    url               TEXT       NOT NULL,
-    html              TEXT       NOT NULL,
-    is_active         BOOLEAN    NOT NULL  DEFAULT TRUE,
-    num_of_downloads  INTEGER    NOT NULL  DEFAULT 1,
-    last_visit_on     TIMESTAMP  NOT NULL,
-    first_visit_on    TIMESTAMP  NOT NULL
+    id                      SERIAL     PRIMARY KEY,
+    url_hash                CHAR(32)   NOT NULL  UNIQUE,
+    html_hash               CHAR(32)   NOT NULL,
+    category                CHAR(10)   NOT NULL,
+    url                     TEXT       NOT NULL,
+    html                    TEXT       NOT NULL,
+    is_active               BOOLEAN    NOT NULL  DEFAULT TRUE,
+    num_of_downloads        INTEGER    NOT NULL  DEFAULT 1,
+    last_visit_on           TIMESTAMP  NOT NULL,
+    first_visit_on          TIMESTAMP  NOT NULL,
+    last_processing_data    TIMESTAMP  NOT NULL
 );
 
 -- Cria índice para buscas via hash

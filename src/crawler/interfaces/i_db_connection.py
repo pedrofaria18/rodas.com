@@ -1,6 +1,6 @@
 import logging
 
-from crawler.model.models import DownloadRecord, DBConnectionConfig
+from crawler.model.models import DownloadRecord, DBConnectionConfig, DatabaseDocForProcess
 from abc import ABC, abstractmethod
 
 
@@ -40,4 +40,9 @@ class DBConnectionInterface(ABC):
     @abstractmethod
     def upsert_failed_downloads(self, results: list[DownloadRecord]) -> bool:
         """Salva ou atualiza os registros de downloads falhos no banco de dados."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def select_docs_for_processing(self) -> bool:
+        """Obtém os registros para o processamento dos documentos e inserção no elastic."""
         raise NotImplementedError

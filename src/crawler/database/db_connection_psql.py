@@ -1,6 +1,6 @@
 
 from crawler.interfaces.i_db_connection import DBConnectionInterface
-from crawler.model.models import DownloadRecord, DatabaseHtmlDoc, Hash, DBConnectionConfig
+from crawler.model.models import DownloadRecord, DatabaseHtmlDoc, Hash, DBConnectionConfig, DatabaseDocForProcess
 import logging
 import psycopg2
 
@@ -175,3 +175,46 @@ class DBPostgresConnection(DBConnectionInterface):
 
         self.logger.info(f'{len(download_records)} falhas de download salvas no banco de dados.')
         return True
+
+    def select_docs_for_processing(self) -> list[DatabaseDocForProcess] | None:
+        """Obtém os registros para o processamento dos documentos e inserção no elastic."""
+        cursor = self.connection.cursor()
+        try:
+            sql = '''
+            SELECT url_hash,
+                   html_hash,
+                   html
+              FROM html_document
+             WHERE last_visit_on > last_processing_data
+                AND is_active = 'true'
+             LIMIT 2
+            '''
+            cursor.execute(sql)
+
+            records: list[DatabaseDocForProcess] = []
+            while True:
+                rows = cursor.fetchmany(5000)
+                if not rows:
+                    break
+
+                for row in rows:
+                    record: DatabaseDocForProcess = {
+                        'url_hash':  Hash(hex_hash=row[0]),
+                        'html_hash': Hash(hex_hash=row[1]),
+                        'html':      row[2]
+                    }
+                    records.append(record)
+
+        except psycopg2.ProgrammingError:
+            return None
+        except psycopg2.Error as e:
+            self.logger.debug(f'Erro ao obter os documentos HTML do banco de dados.')
+            self.logger.debug(f'Tipo do erro: {type(e)}')
+            raise e
+        finally:
+            cursor.close()
+
+        self.logger.info(f'{len(records)} documentos HTML obtidos do banco de dados.')
+        return records
+
+    # TODO Método para atualizar data de processamento dos registros
