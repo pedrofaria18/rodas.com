@@ -45,6 +45,8 @@ class DatabaseHtmlDoc(TypedDict):
 
 
 class DatabaseDocForProcess(TypedDict):
-    url_hash:   Hash
-    html_hash:  Hash
-    html:       str | None
+    id:                   int
+    url_hash:             Hash
+    html_hash:            Hash
+    html:                 str | None
+    last_processing_data: datetime | None

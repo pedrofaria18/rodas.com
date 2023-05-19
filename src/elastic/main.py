@@ -2,8 +2,7 @@ import logging
 
 from crawler.database.db_connector_factory import DBConnectionFactory
 from crawler.model.models import DBConnectionConfig
-from elastic.new_record_processing.new_record_processing import new_record_processing
-from elastic.update_existing_records.update_existing_records import update_existing_records
+from elastic.record_processing.record_processing import new_record_processing
 
 
 def main():
@@ -35,8 +34,6 @@ def main():
         return
 
     new_record_processing(db_connection)
-
-    update_existing_records()
 
     logger.info('Finalizando processamento dos documentos.')
 

@@ -43,6 +43,11 @@ class DBConnectionInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def select_docs_for_processing(self) -> bool:
+    def select_docs_for_processing(self) -> list[DatabaseDocForProcess] | None:
         """Obtém os registros para o processamento dos documentos e inserção no elastic."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def update_processing_date(self, records: list[DatabaseDocForProcess]) -> bool:
+        """Atualiza a data de processamento dos registros."""
         raise NotImplementedError

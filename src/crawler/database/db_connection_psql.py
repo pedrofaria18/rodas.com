@@ -181,14 +181,16 @@ class DBPostgresConnection(DBConnectionInterface):
         cursor = self.connection.cursor()
         try:
             sql = '''
-            SELECT url_hash,
+             SELECT url_hash,
                    html_hash,
-                   html
+                   html,
+                   id,
+                   last_processing_data
               FROM html_document
-             WHERE last_visit_on > last_processing_data
+             WHERE last_visit_on > last_processing_data or last_processing_data is null
                 AND is_active = 'true'
-             LIMIT 2
             '''
+
             cursor.execute(sql)
 
             records: list[DatabaseDocForProcess] = []
@@ -199,9 +201,11 @@ class DBPostgresConnection(DBConnectionInterface):
 
                 for row in rows:
                     record: DatabaseDocForProcess = {
-                        'url_hash':  Hash(hex_hash=row[0]),
-                        'html_hash': Hash(hex_hash=row[1]),
-                        'html':      row[2]
+                        'url_hash':             Hash(hex_hash=row[0]),
+                        'html_hash':            Hash(hex_hash=row[1]),
+                        'html':                 row[2],
+                        'id':                   row[3],
+                        'last_processing_data': row[4]
                     }
                     records.append(record)
 
@@ -217,4 +221,28 @@ class DBPostgresConnection(DBConnectionInterface):
         self.logger.info(f'{len(records)} documentos HTML obtidos do banco de dados.')
         return records
 
-    # TODO Método para atualizar data de processamento dos registros
+    def update_processing_date(self, records: list[DatabaseDocForProcess]) -> bool:
+        """Atualiza a data de processamento dos registros."""
+        cursor = self.connection.cursor()
+        self.logger.info(f'Atualizando datas de processamento dos registros...')
+        try:
+            sql = '''                    
+                UPDATE html_document
+                SET last_processing_data = NOW()
+                WHERE id = %(id)s;
+            '''
+
+            values = [{'id': dr['id']} for dr in records]
+
+            cursor.executemany(sql, values)
+            self.connection.commit()
+
+        except psycopg2.Error as e:
+            self.logger.debug(f'Erro ao atualizar as datas de processamento.')
+            self.logger.debug(e)
+            return False
+        finally:
+            cursor.close()
+
+        self.logger.info(f'{len(records)} datas de processamento atualizadas.')
+        return True
