@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 
 import elastic.constants.titles as constants
-import elastic.constants.sql as sql
 from crawler.interfaces.i_db_connection import DBConnectionInterface
 from elastic.record_processing.elastic_adapter import search, index_docs
 
@@ -58,9 +57,9 @@ def new_record_processing(db_connection: DBConnectionInterface):
 
     # TODO Criar scheduler?
 
-    print("Iniciando processamento de novas páginas coletadas ... \n")
+    print("\nIniciando processamento de novas páginas coletadas ... \n")
 
-    records = db_connection.select_docs_for_processing()
+    records = db_connection.select_docs_for_processing(is_active=True)
 
     for record in records:
         soup = BeautifulSoup(record.get("html"), "html.parser")
@@ -68,7 +67,7 @@ def new_record_processing(db_connection: DBConnectionInterface):
         ad_list = soup.select('.bsNsSq')
         docs_from_list = get_docs_from_list(record.get("id"), ad_list)
 
-        # TODO Processar páginas com um único anúncio?
+        # TODO Processar páginas com um único anúncio e de outros sites
 
         index_docs(docs_from_list, record.get("id"))
 

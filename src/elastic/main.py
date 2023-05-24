@@ -3,6 +3,7 @@ import logging
 from crawler.database.db_connector_factory import DBConnectionFactory
 from crawler.model.models import DBConnectionConfig
 from elastic.record_processing.record_processing import new_record_processing
+from elastic.record_processing.delete_docs import delete_invalid_docs
 
 
 def main():
@@ -34,6 +35,7 @@ def main():
         return
 
     new_record_processing(db_connection)
+    delete_invalid_docs(db_connection)
 
     logger.info('Finalizando processamento dos documentos.')
 

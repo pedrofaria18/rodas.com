@@ -43,7 +43,7 @@ class DBConnectionInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def select_docs_for_processing(self) -> list[DatabaseDocForProcess] | None:
+    def select_docs_for_processing(self, is_active: bool) -> list[DatabaseDocForProcess] | None:
         """Obtém os registros para o processamento dos documentos e inserção no elastic."""
         raise NotImplementedError
 

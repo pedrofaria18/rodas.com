@@ -176,19 +176,19 @@ class DBPostgresConnection(DBConnectionInterface):
         self.logger.info(f'{len(download_records)} falhas de download salvas no banco de dados.')
         return True
 
-    def select_docs_for_processing(self) -> list[DatabaseDocForProcess] | None:
+    def select_docs_for_processing(self, is_active) -> list[DatabaseDocForProcess] | None:
         """Obtém os registros para o processamento dos documentos e inserção no elastic."""
         cursor = self.connection.cursor()
         try:
-            sql = '''
+            sql = f'''
              SELECT url_hash,
                    html_hash,
                    html,
                    id,
                    last_processing_data
               FROM html_document
-             WHERE last_visit_on > last_processing_data or last_processing_data is null
-                AND is_active = 'true'
+             WHERE (last_visit_on > last_processing_data or last_processing_data is null)
+                AND is_active = '{is_active}'
             '''
 
             cursor.execute(sql)
