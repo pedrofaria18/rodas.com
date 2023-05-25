@@ -59,7 +59,7 @@ def search():
     consulta = {
         "query": {
             "match": {
-                constants.TITLE: "Gol"
+                constants.GLOBAL: "1.0 15.000"
             }
         }
     }

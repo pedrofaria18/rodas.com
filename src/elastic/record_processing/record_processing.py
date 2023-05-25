@@ -2,17 +2,18 @@ from bs4 import BeautifulSoup
 
 import elastic.constants.titles as constants
 from crawler.interfaces.i_db_connection import DBConnectionInterface
-from elastic.record_processing.elastic_adapter import search, index_docs
-
+from elastic.record_processing.elastic_adapter import index_docs
 
 undocumented_pages = []
 
 
-def build_doc(title: str, price: str, img: str):
+def build_doc(title: str, price: str, img: str, link: str):
     return {
         constants.TITLE: title,
         constants.PRICE: price,
-        constants.IMAGE: img
+        constants.IMAGE: img,
+        constants.ED_LINK: link,
+        constants.GLOBAL: title + " " + price
     }
 
 
@@ -44,7 +45,14 @@ def get_docs_from_list(page_id: str, ad_list: list):
             undocumented_ads = undocumented_ads + 1
             continue
 
-        docs_list.append(build_doc(title, price, img))
+        link = ad.findAll('a')
+        if len(img) > 0:
+            link = link[0]['href']
+        else:
+            undocumented_ads = undocumented_ads + 1
+            continue
+
+        docs_list.append(build_doc(title, price, img, link))
 
     if undocumented_ads > 0:
         undocumented_pages.append(page_id)
