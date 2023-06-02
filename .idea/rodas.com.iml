@@ -6,6 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.implem" />
       <excludeFolder url="file://$MODULE_DIR$/database" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/docker/pgdata" />
+      <excludeFolder url="file://$MODULE_DIR$/src/crawler/_logs_" />
     </content>
     <orderEntry type="jdk" jdkName="ri-crawler-311" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -13,9 +16,7 @@
   <component name="PyNamespacePackagesService">
     <option name="namespacePackageFolders">
       <list>
-        <option value="$MODULE_DIR$/src/crawler" />
-        <option value="$MODULE_DIR$/src/crawler/database" />
-        <option value="$MODULE_DIR$/src/crawler/model" />
+        <option value="$MODULE_DIR$/database" />
       </list>
     </option>
   </component>
