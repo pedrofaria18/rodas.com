@@ -1,4 +1,4 @@
-# Scrapy settings for olxscraper project
+# Scrapy settings for webcrawler project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,13 +9,13 @@
 
 import os
 
-BOT_NAME = "olxscraper"
+BOT_NAME = "webcrawler"
 
-SPIDER_MODULES = ["olxscraper.spiders"]
-NEWSPIDER_MODULE = "olxscraper.spiders"
+SPIDER_MODULES = ["webcrawler.spiders"]
+NEWSPIDER_MODULE = "webcrawler.spiders"
 
 # Logging level
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 # Fake User Agent Middleware
 SCRAPEOPS_CONFIG = {
@@ -36,14 +36,25 @@ PROXY_CONFIG = {
     'enabled': False
 }
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = "olxscraper (+http://www.yourdomain.com)"
-
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+# Configure item pipelines
+# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+    # "webcrawler.pipelines.OlxscraperPipeline": 300,
+    "webcrawler.pipelines.SaveToPostgresqlPipeline": 410,
+}
+
+# Enable or disable downloader middlewares
+# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
+DOWNLOADER_MIDDLEWARES = {
+    # "webcrawler.middlewares.ProxyMiddleware": 300,
+    # "scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": 310,
+    "webcrawler.middlewares.FakeBrowserHeaderAgentMiddleware": 400,
+    # "webcrawler.middlewares.OlxscraperDownloaderMiddleware": 543,
+}
+
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -52,6 +63,12 @@ DOWNLOAD_DELAY = 5
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
+
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+# USER_AGENT = "webcrawler (+http://www.yourdomain.com)"
+
+# Configure maximum concurrent requests performed by Scrapy (default: 16)
+# CONCURRENT_REQUESTS = 32
 
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
@@ -68,30 +85,14 @@ DOWNLOAD_DELAY = 5
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    "olxscraper.middlewares.OlxscraperSpiderMiddleware": 543,
+#    "webcrawler.middlewares.OlxscraperSpiderMiddleware": 543,
 # }
-
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    # "olxscraper.middlewares.ProxyMiddleware": 300,
-    # "scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": 310,
-    "olxscraper.middlewares.FakeBrowserHeaderAgentMiddleware": 400,
-    # "olxscraper.middlewares.OlxscraperDownloaderMiddleware": 543,
-}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 # EXTENSIONS = {
 #    "scrapy.extensions.telnet.TelnetConsole": None,
 # }
-
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    # "olxscraper.pipelines.OlxscraperPipeline": 300,
-    "olxscraper.pipelines.SaveToPostgresqlPipeline": 410,
-}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

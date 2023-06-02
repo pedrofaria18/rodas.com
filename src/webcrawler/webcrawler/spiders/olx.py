@@ -2,14 +2,18 @@ from datetime import datetime
 from hashlib import md5
 
 import scrapy
-from olxscraper.items import VehicleItem
-from scrapy.utils.project import get_project_settings
+from webcrawler.items import VehicleItem
 
 
 class OlxSpider(scrapy.Spider):
     name = 'olx'
     allowed_domains = ['olx.com.br']
-    start_urls = ['https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios']
+    start_urls = [
+        'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios',
+        'https://www.olx.com.br/autos-e-pecas/motos',
+        'https://www.olx.com.br/autos-e-pecas/caminhoes',
+        'https://www.olx.com.br/autos-e-pecas/onibus'
+    ]
 
     def parse(self, response, **kwargs):
         vehicles = response.css('ul#ad-list>li')
@@ -37,7 +41,7 @@ class OlxSpider(scrapy.Spider):
 
         # Adiciona os campos do item
         vehicle_item['visited_on'] = datetime.now()
-        vehicle_item['category'] = 'LEAF'
+        vehicle_item['category'] = 'OLX'
         vehicle_item['url'] = response.url
         vehicle_item['html'] = root.get()
         vehicle_item['url_hash'] = md5(response.url.encode()).hexdigest()
