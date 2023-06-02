@@ -3,6 +3,7 @@
 /docker/pgdata/
 /docs/*.psd
 /src/crawler/_logs_
+.idea/
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
@@ -299,3 +300,4 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm
+/src/docker/pgdata/
