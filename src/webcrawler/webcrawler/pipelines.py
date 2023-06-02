@@ -4,6 +4,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import psycopg2
+import logging
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
@@ -15,7 +16,7 @@ def short_url(url):
     return url[:22] + '...' + url[-78:]
 
 
-class OlxscraperPipeline:
+class WebCrawlerPipeline:
     def process_item(self, item, spider):
         return item
 
@@ -23,15 +24,21 @@ class OlxscraperPipeline:
 class SaveToPostgresqlPipeline:
 
     def __init__(self):
-        self.conn = psycopg2.connect(
-            host='localhost',
-            port='5432',
-            user='postgres',
-            password='postgres',
-            database='rodas_com'
-        )
+        try:
+            logging.info('Inicializando a conexão com o banco de dados.')
+            self.conn = psycopg2.connect(
+                host='localhost',
+                port='5432',
+                user='postgres',
+                password='postgres',
+                database='rodas_com'
+            )
+            self.cur = self.conn.cursor()
+            logging.info('Conexão com o banco de dados estabelecida.')
 
-        self.cur = self.conn.cursor()
+        except (Exception, psycopg2.Error) as e:
+            logging.error('Erro ao conectar ao banco de dados.')
+            raise e
 
     def process_item(self, item, spider):
         db_record = self.select_html_docs(item['url_hash'], spider)
