@@ -15,7 +15,7 @@ SPIDER_MODULES = ["webcrawler.spiders"]
 NEWSPIDER_MODULE = "webcrawler.spiders"
 
 # Logging level
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 
 # Fake User Agent Middleware
 SCRAPEOPS_CONFIG = {

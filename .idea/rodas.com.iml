@@ -9,15 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/docker/pgdata" />
       <excludeFolder url="file://$MODULE_DIR$/src/crawler/_logs_" />
+      <excludeFolder url="file://$MODULE_DIR$/src/webcrawler/webcrawler/examples" />
     </content>
-    <orderEntry type="jdk" jdkName="ri-crawler-311" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (rodas.com)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-  <component name="PyNamespacePackagesService">
-    <option name="namespacePackageFolders">
-      <list>
-        <option value="$MODULE_DIR$/database" />
-      </list>
-    </option>
   </component>
 </module>
