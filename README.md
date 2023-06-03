@@ -1,7 +1,7 @@
 # Rodas.com
 
 ## Crawler
-### Diagrama de Componentes
+### Diagrama de Classes
 
-![Diagrama de Componentes](/docs/crawler-diagrama_componentes.png)
+![Diagrama de Classes](/docs/crawler-diagrama_classes.png)
 
