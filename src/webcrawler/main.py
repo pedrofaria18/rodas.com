@@ -3,8 +3,9 @@ from scrapy.signalmanager import dispatcher
 from scrapy.crawler import CrawlerProcess
 from scrapy import signals
 
-from webcrawler.spiders.olx import OlxSpider
+from webcrawler.spiders.icarros import ICarrosSpider
 from webcrawler.spiders.kavak import KavakSpider
+from webcrawler.spiders.olx import OlxSpider
 
 
 class CrawlerRunner:
@@ -20,6 +21,7 @@ class CrawlerRunner:
         dispatcher.connect(self._spider_closed, signals.spider_closed)
         self.process.crawl(OlxSpider)
         self.process.crawl(KavakSpider)
+        self.process.crawl(ICarrosSpider)
         self.process.start()
 
     def stop(self):
