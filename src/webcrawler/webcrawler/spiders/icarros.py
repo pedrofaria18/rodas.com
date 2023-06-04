@@ -8,7 +8,7 @@ from webcrawler.items import VehicleItem
 
 
 class ICarrosSpider(scrapy.Spider):
-    name = "icarros"
+    name = "ICARROS"
     allowed_domains = ["www.icarros.com.br"]
     start_urls = ["https://www.icarros.com.br/comprar/usados"]
 
@@ -43,7 +43,7 @@ class ICarrosSpider(scrapy.Spider):
 
         # Adiciona os campos do item
         vehicle_item['visited_on'] = datetime.now()
-        vehicle_item['category'] = 'ICARROS'
+        vehicle_item['category'] = self.name
         vehicle_item['url'] = response.url
         vehicle_item['html'] = root.get()
         vehicle_item['url_hash'] = md5(response.url.encode()).hexdigest()

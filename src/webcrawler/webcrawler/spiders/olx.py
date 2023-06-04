@@ -6,7 +6,7 @@ from webcrawler.items import VehicleItem
 
 
 class OlxSpider(scrapy.Spider):
-    name = 'olx'
+    name = 'OLX'
     allowed_domains = ['olx.com.br']
     start_urls = [
         'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios',
@@ -41,7 +41,7 @@ class OlxSpider(scrapy.Spider):
 
         # Adiciona os campos do item
         vehicle_item['visited_on'] = datetime.now()
-        vehicle_item['category'] = 'OLX'
+        vehicle_item['category'] = self.name
         vehicle_item['url'] = response.url
         vehicle_item['html'] = root.get()
         vehicle_item['url_hash'] = md5(response.url.encode()).hexdigest()
