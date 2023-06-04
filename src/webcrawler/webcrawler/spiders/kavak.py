@@ -8,7 +8,7 @@ from webcrawler.items import VehicleItem
 
 
 class KavakSpider(scrapy.Spider):
-    name = 'kavak'
+    name = 'KAVAK'
     allowed_domains = ['www.kavak.com']
     start_urls = ['https://www.kavak.com/br/seminovos']
 
@@ -61,7 +61,7 @@ class KavakSpider(scrapy.Spider):
 
         # Adiciona os campos do item
         vehicle_item['visited_on'] = datetime.now()
-        vehicle_item['category'] = 'KAVAK'
+        vehicle_item['category'] = self.name
         vehicle_item['url'] = response.url
         vehicle_item['html'] = root.get()
         vehicle_item['url_hash'] = md5(response.url.encode()).hexdigest()

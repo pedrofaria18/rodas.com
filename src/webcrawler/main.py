@@ -30,11 +30,10 @@ class CrawlerRunner:
             self.process.stop()
             self.crawling = False
 
-    def _spider_closed(self, spider):
-        """ Callback para quando o crawler terminar """
-        if not self.process.crawlers.running:
-            self.crawling = False
-            self.process.stop()
+    @staticmethod
+    def _spider_closed(spider):
+        """ Callback para quando o spider finalizar """
+        spider.logger.info(f'Spider {spider.name} finalizado.')
 
 
 if __name__ == '__main__':
