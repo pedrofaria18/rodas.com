@@ -1,8 +1,6 @@
 import CarList from '../../components/CarList';
-import { search } from '../../service/elastic';
 
 export default function Home() {
-  search();
   return (
     <div
       className="

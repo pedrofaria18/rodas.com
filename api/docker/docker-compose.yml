@@ -25,6 +25,11 @@ services:
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Des.cors.enabled=true"
+      - "ES_JAVA_OPTS=-Des.cors.allow-origin="
+      - "ES_JAVA_OPTS=-Des.http.cors.allow-origin="
+      - "ES_JAVA_OPTS=-Des.http.cors.enabled=true"
+      - "ES_JAVA_OPTS=-Des.http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
     networks:
       - es-net
     ports:
