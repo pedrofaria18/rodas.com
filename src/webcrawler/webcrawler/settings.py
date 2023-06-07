@@ -28,13 +28,13 @@ SCRAPEOPS_CONFIG = {
 }
 
 # Rotating proxy
-PROXY_CONFIG = {
-    'username': os.environ['SMARTPROXY_USERNAME'],
-    'password': os.environ['SMARTPROXY_PASSWORD'],
-    'endpoint': 'br.smartproxy.com',
-    'port': 10000,
-    'enabled': False
-}
+# PROXY_CONFIG = {
+#     'username': os.environ['SMARTPROXY_USERNAME'],
+#     'password': os.environ['SMARTPROXY_PASSWORD'],
+#     'endpoint': 'br.smartproxy.com',
+#     'port': 10000,
+#     'enabled': False
+# }
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
