@@ -1,0 +1,6 @@
+TITLE = "title"
+PRICE = "price"
+YEAR = "ano"
+IMAGE = "image"
+ED_LINK = "ed_link"
+GLOBAL = "global"
