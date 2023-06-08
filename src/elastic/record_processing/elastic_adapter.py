@@ -21,7 +21,13 @@ def index_docs(docs: list, record_id: str):
         count = count + 1
 
 
-def delete_docs(id_list: list):
+def index_single_docs(doc: dict, record_id: str):
+    global es, index
+
+    es.index(index=index, id=record_id, body=doc)
+
+
+def delete_docs(id_list: list):  # TODO Testar novamente
     global es, index
 
     for doc_id in id_list:

@@ -1,15 +1,15 @@
 import time
 
-from crawler.interfaces.i_db_connection import DBConnectionInterface
-from elastic.record_processing.elastic_adapter import search_all, delete_docs
+from elastic.database.operations import select_docs_for_processing, update_processing_date
+from elastic.record_processing.elastic_adapter import delete_docs
 
 
-def delete_invalid_docs(db_connection: DBConnectionInterface):
+def delete_invalid_docs(cur, conn):
     """Deleta documentos inválidos do elasticsearch"""
 
     print("\nDeletando documentos inválidos do elasticsearch ... \n")
 
-    records = db_connection.select_docs_for_processing(is_active=False)
+    records = select_docs_for_processing(is_active=False, cur=cur)
     id_list = []
 
     for record in records:
@@ -18,7 +18,7 @@ def delete_invalid_docs(db_connection: DBConnectionInterface):
     time.sleep(10)
     delete_docs(id_list)
 
-    updated = db_connection.update_processing_date(records)
+    updated = update_processing_date(cur, conn, records)
 
     if updated:
         print("\nData de processamento dos registros atualizada.")

@@ -1,8 +1,10 @@
+import time
+
 from bs4 import BeautifulSoup
 
 import elastic.constants.titles as constants
-from crawler.interfaces.i_db_connection import DBConnectionInterface
-from elastic.record_processing.elastic_adapter import index_docs
+from elastic.database.operations import select_docs_for_processing, update_processing_date
+from elastic.record_processing.elastic_adapter import index_single_docs, search_all
 
 undocumented_pages = []
 
@@ -17,73 +19,56 @@ def build_doc(title: str, price: str, img: str, link: str):
     }
 
 
-def get_docs_from_list(page_id: str, ad_list: list):
-    """Geração dos documentos a partir de página com vários anúncios"""
-
-    docs_list = []
-    undocumented_ads = 0
-
-    for ad in ad_list:
-        title = ad.h2
-        if title is not None:
-            title = title.text
-        else:
-            undocumented_ads = undocumented_ads + 1
-            continue
-
-        price = ad.select('.main-price')
-        if len(price) > 0:
-            price = price[0].text
-        else:
-            undocumented_ads = undocumented_ads + 1
-            continue
-
-        img = ad.findAll('img')
-        if len(img) > 0:
-            img = img[0]['src']
-        else:
-            undocumented_ads = undocumented_ads + 1
-            continue
-
-        link = ad.findAll('a')
-        if len(img) > 0:
-            link = link[0]['href']
-        else:
-            undocumented_ads = undocumented_ads + 1
-            continue
-
-        docs_list.append(build_doc(title, price, img, link))
-
-    if undocumented_ads > 0:
-        undocumented_pages.append(page_id)
-
-    return docs_list
+def get_kavak_doc(soup, link):
+    title = soup.h1.text
+    return build_doc(title, "", "", link)
 
 
-def new_record_processing(db_connection: DBConnectionInterface):
+def get_icarros_doc(soup, link):
+    title = soup.h1.text.replace("\n", "").replace("  ", "")
+    price = soup.select('.preco')[0].text
+    image = soup.select('.swiper-slide')[0].img['data-src']
+
+    return build_doc(title, price, image, link)
+
+
+def get_olx_doc(soup, link):
+    title = soup.h1.text.replace("\n", "").replace("  ", "")
+
+    price_list = soup.select('.hZFmcR')
+    price = f"{price_list[0].text} {price_list[1].text}"
+
+    image = soup.findAll('img')[1]['src']
+
+    return build_doc(title, price, image, link)
+
+
+def new_record_processing(cur, conn):
     """Processamento e inserção de novos registros do banco no elastic"""
-
-    # TODO Criar scheduler?
 
     print("\nIniciando processamento de novas páginas coletadas ... \n")
 
-    records = db_connection.select_docs_for_processing(is_active=True)
+    records = select_docs_for_processing(is_active=True, cur=cur)
 
     for record in records:
-        soup = BeautifulSoup(record.get("html"), "html.parser")
+        soup = BeautifulSoup(record[2], "html.parser")
 
-        ad_list = soup.select('.bsNsSq')
-        docs_from_list = get_docs_from_list(record.get("id"), ad_list)
+        site_name = soup.find("meta", property="og:site_name")["content"]
 
-        # TODO Processar páginas com um único anúncio e de outros sites
+        doc = {}
 
-        index_docs(docs_from_list, record.get("id"))
+        if site_name == "Kavak":
+            doc = get_kavak_doc(soup, record[5])
+        elif site_name == "iCarros":
+            doc = get_icarros_doc(soup, record[5])
+        elif site_name == "OLX":
+            doc = get_olx_doc(soup, record[5])
+        else:
+            print(f"--- PÁGINA NÃO MAPEADA! site_name: {site_name} ---")
 
-        print("ID: {} | N° de docs: {}".format(str(record.get("id")), str(len(docs_from_list))))
+        index_single_docs(doc, record[3])
 
-    updated = db_connection.update_processing_date(records)
+    update_processing_date(cur, conn, records)
+    # print("\nData de processamento dos registros atualizada.")
 
-    if updated:
-        print("\nData de processamento dos registros atualizada.")
-
-    print("\n-- Lista dos IDs das páginas com anúncios não documentados: " + str(undocumented_pages))
+    # print("\n-- Lista dos IDs das páginas com anúncios não documentados: " + str(undocumented_pages))
