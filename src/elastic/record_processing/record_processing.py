@@ -6,7 +6,7 @@ import elastic.constants.titles as constants
 from elastic.database.operations import select_docs_for_processing, update_processing_date
 from elastic.record_processing.elastic_adapter import index_single_docs, search_all
 
-undocumented_pages = []
+undocumented_pages = 0
 
 
 def build_doc(title: str, price: str, img: str, link: str):
@@ -20,8 +20,21 @@ def build_doc(title: str, price: str, img: str, link: str):
 
 
 def get_kavak_doc(soup, link):
+    global undocumented_pages
+
     title = soup.h1.text
-    return build_doc(title, "", "", link)
+    price = soup.select('.price')
+
+    if len(price) == 0:
+        print("Página KAVAK sem preço!")
+        undocumented_pages = undocumented_pages + 1
+        return
+
+    price = price[0].select('.normal')[0].text
+
+    image = soup.findAll('img')[1]['src']
+
+    return build_doc(title, price, image, link)
 
 
 def get_icarros_doc(soup, link):
@@ -66,9 +79,11 @@ def new_record_processing(cur, conn):
         else:
             print(f"--- PÁGINA NÃO MAPEADA! site_name: {site_name} ---")
 
-        index_single_docs(doc, record[3])
+        if doc is not None:
+            index_single_docs(doc, record[3])
 
-    update_processing_date(cur, conn, records)
-    # print("\nData de processamento dos registros atualizada.")
+    if len(records) > 0:
+        update_processing_date(cur, conn, records)
+        print("\nData de processamento dos registros atualizada.")
 
-    # print("\n-- Lista dos IDs das páginas com anúncios não documentados: " + str(undocumented_pages))
+    print("\n-- Número de páginas KAVAK não documentadas: " + str(undocumented_pages))

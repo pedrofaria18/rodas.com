@@ -32,11 +32,11 @@ def main():
     cur, conn = connect_db()
 
     new_record_processing(cur, conn)
-    delete_invalid_docs(cur, conn)
+    delete_invalid_docs(cur, conn)  # TODO Testar
 
     close_connection(cur, conn)
 
-    print("Finalizando processamento dos documentos.")
+    print("\nFinalizando processamento dos documentos.")
 
 
 main()
