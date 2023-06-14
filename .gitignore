@@ -4,6 +4,7 @@
 /docs/*.psd
 /src/crawler/_logs_
 .idea/
+/src/fe/node_modules
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
