@@ -10,15 +10,15 @@ def delete_invalid_docs(cur, conn):
     print("\nDeletando documentos inválidos do elasticsearch ... \n")
 
     records = select_docs_for_processing(is_active=False, cur=cur)
+
     id_list = []
 
     for record in records:
-        id_list.append(record.get("id"))
+        id_list.append(record[3])
 
     time.sleep(10)
-    delete_docs(id_list)
 
-    updated = update_processing_date(cur, conn, records)
-
-    if updated:
+    if len(id_list) > 0:
+        delete_docs(id_list)
+        update_processing_date(cur, conn, records)
         print("\nData de processamento dos registros atualizada.")

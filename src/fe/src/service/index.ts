@@ -6,5 +6,15 @@ const api = axios.create({
 
 export const getCars = async () => {
   const response = await api.get('/cars');
-  return response.data;
+
+  const listCars = response.data.map((info: any) => {
+    const {
+      title, price, image, ed_link
+    } = info["_source"]
+
+    return {
+      title, price, image, ed_link
+    }
+  })
+  return listCars;
 };

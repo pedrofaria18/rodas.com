@@ -18,6 +18,8 @@ export default function CarList() {
 
         const carsList = await getCars();
 
+        console.log(carsList)
+
         setCars(carsList);
       } catch (error) {
         console.log(error);
@@ -41,8 +43,8 @@ export default function CarList() {
     >
       <Loader isLoading={isLoading} />
 
-      {cars.map((car: CarType) => (
-        <Car key={car.id} car={car} />
+      {cars.map((car: CarType, index) => (
+        <Car key={index} car={car} />
       ))}
 
       {cars.length === 0 && (

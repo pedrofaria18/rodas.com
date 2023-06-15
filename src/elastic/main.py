@@ -32,7 +32,7 @@ def main():
     cur, conn = connect_db()
 
     new_record_processing(cur, conn)
-    delete_invalid_docs(cur, conn)  # TODO Testar
+    delete_invalid_docs(cur, conn)
 
     close_connection(cur, conn)
 

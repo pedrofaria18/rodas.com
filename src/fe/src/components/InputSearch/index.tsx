@@ -1,4 +1,7 @@
 export default function InputSearch() {
+
+  
+
   return (
     <div className="relative">
       <input

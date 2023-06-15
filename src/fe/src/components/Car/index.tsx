@@ -1,7 +1,7 @@
-import PaintSVG from '../../assets/Paint.svg';
-import FuelSVG from '../../assets/Fuel.svg';
-import DoorSVG from '../../assets/Door.svg';
-import CarShiftSVG from '../../assets/CarShift.svg';
+// import PaintSVG from '../../assets/Paint.svg';
+// import FuelSVG from '../../assets/Fuel.svg';
+// import DoorSVG from '../../assets/Door.svg';
+// import CarShiftSVG from '../../assets/CarShift.svg';
 
 import { Car as CarDTO } from '../../types/car';
 
@@ -10,41 +10,38 @@ type CarProps = {
 };
 
 export default function Car({ car }: CarProps) {
-  const { name, image, kilometers, year, about, price, location } = car;
+  const { title, image,  price, ed_link} = car;
 
-  const formattedKilometers = new Intl.NumberFormat('pt-BR', {
-    style: 'unit',
-    unit: 'kilometer',
-  }).format(kilometers);
+  console.log(car)
 
-  const formattedPrice = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(price);
+  // const formattedKilometers = new Intl.NumberFormat('pt-BR', {
+  //   style: 'unit',
+  //   unit: 'kilometer',
+  // }).format(kilometers);
 
-  const items = [
-    {
-      icon: PaintSVG,
-      iconAlt: 'Ícone de cor',
-      title: about.color,
-    },
-    {
-      icon: DoorSVG,
-      iconAlt: 'Ícone de porta',
-      title: about.doors,
-    },
-    {
-      icon: FuelSVG,
-      iconAlt: 'Ícone de combustível',
-      title: about.fuelType,
-    },
+  // const items = [
+  //   {
+  //     icon: PaintSVG,
+  //     iconAlt: 'Ícone de cor',
+  //     title: about.color,
+  //   },
+  //   {
+  //     icon: DoorSVG,
+  //     iconAlt: 'Ícone de porta',
+  //     title: about.doors,
+  //   },
+  //   {
+  //     icon: FuelSVG,
+  //     iconAlt: 'Ícone de combustível',
+  //     title: about.fuelType,
+  //   },
 
-    {
-      icon: CarShiftSVG,
-      iconAlt: 'Ícone de tipo de transmissão',
-      title: about.streamingType,
-    },
-  ];
+  //   {
+  //     icon: CarShiftSVG,
+  //     iconAlt: 'Ícone de tipo de transmissão',
+  //     title: about.streamingType,
+  //   },
+  // ];
 
   return (
     <div
@@ -54,6 +51,7 @@ export default function Car({ car }: CarProps) {
         w-[264px]
         pb-4
       "
+      onClick={() => window.open(ed_link, '_blank')}
     >
       <img
         className="
@@ -62,7 +60,7 @@ export default function Car({ car }: CarProps) {
           rounded-t-lg
         "
         src={image}
-        alt={name}
+        alt={title}
       />
       <div
         className="
@@ -78,7 +76,7 @@ export default function Car({ car }: CarProps) {
 
         "
       >
-        <p
+        {/* <p
           className="
             text-sm
             font-medium
@@ -86,7 +84,7 @@ export default function Car({ car }: CarProps) {
             "
         >
           {formattedKilometers} | {year}
-        </p>
+        </p> */}
         <h1
           className="
                 text-base
@@ -94,9 +92,9 @@ export default function Car({ car }: CarProps) {
                 text-gray-600
               "
         >
-          {name}
+          {title}
         </h1>
-        <div
+        {/* <div
           className="
             grid
             grid-cols-2
@@ -126,7 +124,7 @@ export default function Car({ car }: CarProps) {
               </p>
             </div>
           ))}
-        </div>
+        </div> */}
         <p
           className="
             text-[22px]
@@ -134,9 +132,9 @@ export default function Car({ car }: CarProps) {
             text-gray-500
           "
         >
-          {formattedPrice}
+          {price}
         </p>
-        <p
+        {/* <p
           className="
             text-xs
             font-normal
@@ -144,7 +142,7 @@ export default function Car({ car }: CarProps) {
           "
         >
           {location}
-        </p>
+        </p> */}
       </div>
     </div>
   );

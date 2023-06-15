@@ -27,24 +27,14 @@ def index_single_docs(doc: dict, record_id: str):
     es.index(index=index, id=record_id, body=doc)
 
 
-def delete_docs(id_list: list):  # TODO Testar novamente
+def delete_docs(id_list: list):
     global es, index
 
     for doc_id in id_list:
-
-        still_have_doc = True
-        count = 0
-
-        while still_have_doc:
-            print("COUNT: " + str(count) + " ID: " + str(doc_id))
-            query = {"query": {"match": {"_id": f'{doc_id}.' + str(count)}}}
-            res = es.delete_by_query(index=index, body=query)
-            print(res)
-
-            if res['deleted'] == 0:
-                still_have_doc = False
-
-            count = count + 1
+        print("ID: " + str(doc_id))
+        query = {"query": {"match": {"_id": f'{doc_id}'}}}
+        res = es.delete_by_query(index=index, body=query)
+        print(res)
 
 
 def search_all():
