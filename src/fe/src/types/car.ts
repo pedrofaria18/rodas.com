@@ -6,7 +6,7 @@ export interface Car {
   // kilometers: number;
   // year: number;
   price: number;
-  ed_link: string;
+  edLink: string;
   // about: {
   //   color: string;
   //   fuelType: string;

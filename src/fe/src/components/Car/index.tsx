@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 // import PaintSVG from '../../assets/Paint.svg';
 // import FuelSVG from '../../assets/Fuel.svg';
 // import DoorSVG from '../../assets/Door.svg';
@@ -10,9 +12,7 @@ type CarProps = {
 };
 
 export default function Car({ car }: CarProps) {
-  const { title, image,  price, ed_link} = car;
-
-  console.log(car)
+  const { title, image, price, edLink } = car;
 
   // const formattedKilometers = new Intl.NumberFormat('pt-BR', {
   //   style: 'unit',
@@ -51,7 +51,7 @@ export default function Car({ car }: CarProps) {
         w-[264px]
         pb-4
       "
-      onClick={() => window.open(ed_link, '_blank')}
+      onClick={() => window.open(edLink, '_blank')}
     >
       <img
         className="

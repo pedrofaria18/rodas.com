@@ -1,35 +1,11 @@
-import { useEffect, useState } from 'react';
-
-import { getCars } from '../../service';
-
+import { useCars } from '../../contexts/useCars';
 import { Car as CarType } from '../../types/car';
 
 import Car from '../Car';
 import Loader from '../Loader';
 
 export default function CarList() {
-  const [cars, setCars] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    async function loadCars() {
-      try {
-        setIsLoading(true);
-
-        const carsList = await getCars();
-
-        console.log(carsList)
-
-        setCars(carsList);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadCars();
-  }, []);
+  const { cars, isLoading } = useCars();
 
   return (
     <div
@@ -43,8 +19,8 @@ export default function CarList() {
     >
       <Loader isLoading={isLoading} />
 
-      {cars.map((car: CarType, index) => (
-        <Car key={index} car={car} />
+      {cars.map((car: CarType) => (
+        <Car key={car.title} car={car} />
       ))}
 
       {cars.length === 0 && (

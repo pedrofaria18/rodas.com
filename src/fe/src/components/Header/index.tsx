@@ -1,4 +1,5 @@
 import LogoSecondarySVG from '../../assets/LogoSecondary.svg';
+
 import InputSearch from '../InputSearch';
 
 export default function Header() {

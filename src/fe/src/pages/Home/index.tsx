@@ -12,13 +12,13 @@ export default function Home() {
       pt-8
     "
     >
-      <aside
+      {/* <aside
         className="
          max-w-[294px]
         "
       >
         Filtros
-      </aside>
+      </aside> */}
 
       <main
         className="

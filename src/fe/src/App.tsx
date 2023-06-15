@@ -1,4 +1,5 @@
 import Header from './components/Header';
+import CarsProvider from './contexts/useCars';
 
 import ApplicationRoutes from './Routes';
 
@@ -11,9 +12,11 @@ function App() {
         
       "
     >
-      <Header />
+      <CarsProvider>
+        <Header />
 
-      <ApplicationRoutes />
+        <ApplicationRoutes />
+      </CarsProvider>
     </div>
   );
 }

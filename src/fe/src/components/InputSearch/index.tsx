@@ -1,6 +1,7 @@
-export default function InputSearch() {
+import { useCars } from '../../contexts/useCars';
 
-  
+export default function InputSearch() {
+  const { search, setSearch, searchCars } = useCars();
 
   return (
     <div className="relative">
@@ -13,8 +14,13 @@ export default function InputSearch() {
         focus:outline-none focus:border-transparent"
         type="text"
         placeholder="Faça sua busca aqui"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
-      <button className="absolute inset-y-0 right-0 px-3 flex items-center bg-transparent focus:outline-none">
+      <button
+        className="absolute inset-y-0 right-0 px-3 flex items-center bg-transparent focus:outline-none"
+        onClick={searchCars}
+      >
         <svg
           className="h-5 w-5 text-gray-400"
           fill="none"
