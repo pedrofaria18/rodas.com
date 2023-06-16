@@ -25,23 +25,26 @@ const CarsContext = createContext({} as ICarsData);
 
 export default function CarsProvider({ children }: { children: ReactNode }) {
   const [cars, setCars] = useState<Car[]>([]);
+  
   const [search, setSearch] = useState<string>('');
 
   const [isLoading, setIsLoading] = useState(false);
 
   const loadCars = useCallback(
-    async (body?: Record<string, string>) => {
+    async (body?: any) => {
       try {
         setIsLoading(true);
 
-        const carsList = body ? await getCars(body) : await getCars();
+        const carsList = body ? await getCars(body) : await getCars({
+          "match_all": {}
+        });
 
         setCars(carsList);
       } finally {
         setIsLoading(false);
       }
     },
-    [setCars]
+    []
   );
 
   useEffect(() => {
@@ -49,7 +52,15 @@ export default function CarsProvider({ children }: { children: ReactNode }) {
   }, [loadCars]);
 
   const searchCars = () => {
-    loadCars({ global: search });
+    if (search) {
+      loadCars({ "match": {
+        global: search
+      }});
+    } else {
+      loadCars({
+        "match_all": {}
+      });
+    }
   };
 
   return (

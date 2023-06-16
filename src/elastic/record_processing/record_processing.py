@@ -31,6 +31,8 @@ def get_kavak_doc(soup, link):
 
     general_infos = soup.select('.filter-container')
 
+    global_infos = ""
+
     for info in general_infos:
         key = get_key(info.select('.label')[0].text)
 
@@ -41,7 +43,9 @@ def get_kavak_doc(soup, link):
 
         doc[key] = value
 
-    doc[constants.GLOBAL] = title + " " + price
+        global_infos = global_infos + value
+
+    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
     doc[constants.ED_LINK] = link
 
     return doc
@@ -71,7 +75,9 @@ def get_icarros_doc(soup, link):
 
         doc[key] = value
 
-    doc[constants.GLOBAL] = title + " " + price
+        global_infos = global_infos + value
+
+    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
     doc[constants.ED_LINK] = link
 
     return doc
@@ -105,7 +111,9 @@ def get_olx_doc(soup, link):
 
         doc[key] = value[0].text
 
-    doc[constants.GLOBAL] = title + " " + price
+        global_infos = global_infos + value
+
+    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
     doc[constants.ED_LINK] = link
 
     return doc
