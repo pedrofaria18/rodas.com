@@ -1,9 +1,9 @@
 export interface Car {
   title: string;
   image: string;
-  price: number;
+  price?: number;
   edLink: string;
-  year: number;
+  year?: number;
   kilometers?: number;
   color?: string;
   fuelType?: string;

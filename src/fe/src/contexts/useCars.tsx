@@ -52,6 +52,8 @@ export default function CarsProvider({ children }: { children: ReactNode }) {
   }, [loadCars]);
 
   const searchCars = () => {
+    setCars([])
+
     if (search) {
       loadCars({ "match": {
         global: search

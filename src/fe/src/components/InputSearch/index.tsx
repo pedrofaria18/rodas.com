@@ -3,6 +3,12 @@ import { useCars } from '../../contexts/useCars';
 export default function InputSearch() {
   const { search, setSearch, searchCars } = useCars();
 
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      searchCars()
+    }
+  };
+
   return (
     <div className="relative">
       <input
@@ -16,6 +22,7 @@ export default function InputSearch() {
         placeholder="Faça sua busca aqui"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
       <button
         className="absolute inset-y-0 right-0 px-3 flex items-center bg-transparent focus:outline-none"

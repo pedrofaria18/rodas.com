@@ -13,6 +13,7 @@ def select_docs_for_processing(is_active, cur):
           FROM html_document
          WHERE (last_visit_on > last_processing_data or last_processing_data is null)
             AND is_active = %s
+         LIMIT 2000
         '''
 
         cur.execute(sql, (is_active,))
@@ -20,7 +21,7 @@ def select_docs_for_processing(is_active, cur):
         response = cur.fetchall()
 
         if response is not None:
-            # print(response[0][5])
+            #print(response[0][2])
             return response
         else:
             return None

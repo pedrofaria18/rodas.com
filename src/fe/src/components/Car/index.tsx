@@ -14,7 +14,6 @@ type CarProps = {
 export default function Car({ car }: CarProps) {
   const { title, image, price, edLink, kilometers, year, color, doors, fuelType, streamingType } = car;
 
-
   const formattedKilometers = kilometers ? new Intl.NumberFormat('pt-BR', {
     style: 'unit',
     unit: 'kilometer',
@@ -61,13 +60,13 @@ export default function Car({ car }: CarProps) {
             text-gray-500
             "
         >
-          {
-            formattedKilometers && !year ? formattedKilometers : (
-              !formattedKilometers && year ? year : (
-                formattedKilometers && year ? `${formattedKilometers} | ${year}` : ""
-              )
-            )
-          }
+          <span>
+            {formattedKilometers || "- km"}
+          </span>
+          <span> | </span>
+          <span>
+            {year || "Ano não informado"}
+          </span>
         </p>
         <h1
           className="
@@ -182,7 +181,7 @@ export default function Car({ car }: CarProps) {
             text-gray-500
           "
         >
-          {price}
+          {price ? price : "Preço não informado"}
         </p>
       </div>
     </div>

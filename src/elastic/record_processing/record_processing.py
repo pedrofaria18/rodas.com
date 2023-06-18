@@ -7,31 +7,33 @@ import elastic.constants.titles as constants
 from elastic.database.operations import select_docs_for_processing, update_processing_date
 from elastic.record_processing.elastic_adapter import index_single_docs, search_all
 
-undocumented_pages = 0
-
 
 def get_kavak_doc(soup, link):
-    global undocumented_pages
     doc = {}
 
     title = soup.h1.text
     doc[constants.TITLE] = title
+    global_value = f"{title}"
 
-    price = soup.select('.price')
+    tag_price = soup.select('.price')
 
-    if len(price) == 0:
-        undocumented_pages = undocumented_pages + 1
-        return
+    if len(tag_price) > 0:
+        price = tag_price[0].select('.normal')
 
-    price = price[0].select('.normal')[0].text
-    doc[constants.PRICE] = price
+        if len(price) > 0:
+            price = price[0].text
+        else:
+            price = tag_price[0].select('.header')[0].text
 
-    image = soup.findAll('img')[1]['src']
-    doc[constants.IMAGE] = image
+        doc[constants.PRICE] = price
+        global_value = f"{global_value} {price}"
+
+    image = soup.findAll('img')
+
+    if len(image) > 0:
+        doc[constants.IMAGE] = image[1]['src']
 
     general_infos = soup.select('.filter-container')
-
-    global_infos = ""
 
     for info in general_infos:
         key = get_key(info.select('.label')[0].text)
@@ -39,13 +41,13 @@ def get_kavak_doc(soup, link):
         if key is None:
             continue
 
-        value = info.select('.value')[0].text
+        value = info.select('.value')
 
-        doc[key] = value
+        if len(value) > 0:
+            doc[key] = value[0].text
+            global_value = f"{global_value} {value[0].text}"
 
-        global_infos = global_infos + value
-
-    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
+    doc[constants.GLOBAL] = global_value
     doc[constants.ED_LINK] = link
 
     return doc
@@ -56,14 +58,22 @@ def get_icarros_doc(soup, link):
 
     title = soup.h1.text.replace("\n", "").replace("  ", "")
     doc[constants.TITLE] = title
+    global_value = f"{title}"
 
-    price = soup.select('.preco')[0].text
-    doc[constants.PRICE] = price
+    price = soup.select('.preco')
+    if len(price) > 0:
+        doc[constants.PRICE] = price[0].text
+        global_value = f"{global_value} {price}"
 
-    image = soup.select('.swiper-slide')[0].img['data-src']
-    doc[constants.IMAGE] = image
+    image = soup.select('.swiper-slide')
 
-    general_infos = soup.select('.card-informacoes-basicas')[0].findAll('li')
+    if len(image) > 0:
+        doc[constants.IMAGE] = image[0].img['data-src']
+
+    general_infos = soup.select('.card-informacoes-basicas')
+
+    if len(general_infos) > 0:
+        general_infos = general_infos[0].findAll('li')
 
     for info in general_infos:
         key = get_key(info.h6.text)
@@ -71,13 +81,13 @@ def get_icarros_doc(soup, link):
         if key is None:
             continue
 
-        value = info.select('.destaque')[0].text
+        value = info.select('.destaque')
 
-        doc[key] = value
+        if len(value) > 0:
+            doc[key] = value[0].text
+            global_value = f"{global_value} {value[0].text}"
 
-        global_infos = global_infos + value
-
-    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
+    doc[constants.GLOBAL] = global_value
     doc[constants.ED_LINK] = link
 
     return doc
@@ -88,13 +98,19 @@ def get_olx_doc(soup, link):
 
     title = soup.h1.text.replace("\n", "").replace("  ", "")
     doc[constants.TITLE] = title
+    global_value = f"{title}"
 
     price_list = soup.select('.hZFmcR')
-    price = f"{price_list[0].text} {price_list[1].text}"
-    doc[constants.PRICE] = price
 
-    image = soup.findAll('img')[1]['src']
-    doc[constants.IMAGE] = image
+    if len(price_list) > 0:
+        price = f"{price_list[0].text} {price_list[1].text}"
+        doc[constants.PRICE] = price
+        global_value = f"{global_value} {price}"
+
+    image = soup.findAll('img')
+
+    if len(image) > 0:
+        doc[constants.IMAGE] = image[1]['src']
 
     general_infos = soup.select('.fcMYXB')
 
@@ -109,11 +125,11 @@ def get_olx_doc(soup, link):
         if len(value) <= 0:
             value = info.select('.dsTsUE')
 
-        doc[key] = value[0].text
+        if len(value) > 0:
+            doc[key] = value[0].text
+            global_value = f"{global_value} {value[0].text}"
 
-        global_infos = global_infos + value
-
-    doc[constants.GLOBAL] = f"{title} {price} {global_infos}"
+    doc[constants.GLOBAL] = global_value
     doc[constants.ED_LINK] = link
 
     return doc
@@ -151,7 +167,14 @@ def new_record_processing(cur, conn):
     for record in records:
         soup = BeautifulSoup(record[2], "html.parser")
 
-        site_name = soup.find("meta", property="og:site_name")["content"]
+        print(f"PAGE ID: {record[3]}")
+        site_name = soup.find("meta", property="og:site_name")
+
+        if site_name is None:
+            print(f"Página fora do padrão - skipped - ID: {record[3]}")
+            continue
+
+        site_name = site_name["content"]
 
         doc = {}
 
@@ -162,7 +185,7 @@ def new_record_processing(cur, conn):
         elif site_name == "OLX":
             doc = get_olx_doc(soup, record[5])
         else:
-            print(f"--- PÁGINA NÃO MAPEADA! site_name: {site_name} ---")
+            print(f"--- PÁGINA NÃO MAPEADA! site_name: {site_name} {record[3]} ---")
 
         if doc is not None:
             index_single_docs(doc, record[3])
@@ -170,5 +193,3 @@ def new_record_processing(cur, conn):
     if len(records) > 0:
         update_processing_date(cur, conn, records)
         print("\nData de processamento dos registros atualizada.")
-
-    print("\n-- Número de páginas KAVAK não documentadas: " + str(undocumented_pages))
